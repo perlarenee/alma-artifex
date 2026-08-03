@@ -1,0 +1,19 @@
+allowBuilds:
+  "@biomejs/biome": true
+  esbuild: true
+  sharp: true
+
+overrides:
+  "vite": 'catalog:'
+  "vitest": 'catalog:'
+catalog:
+  vite: npm:@voidzero-dev/vite-plus-core@^0.2.6
+  vitest: 4.1.10
+  vite-plus: ^0.2.6
+peerDependencyRules:
+  allowAny:
+    - vite
+    - vitest
+  allowedVersions:
+    vite: '*'
+    vitest: '*'

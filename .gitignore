@@ -1,0 +1,25 @@
+node_modules
+.DS_Store
+dist
+build
+dist-ssr
+*.local
+
+yarn-error.log*
+.pnpm-debug.log*
+
+# TS
+*.tsbuildinfo
+
+# Turbo
+.turbo
+
+stats.*
+
+# Test
+coverage/
+
+# ESLint
+.eslintcache
+
+.tanstack
