@@ -1,4 +1,5 @@
-import { Flex, Link, Text } from '@chakra-ui/react';
+import { Flex, Text } from '@chakra-ui/react';
+import { COPYRIGHT_TEXT } from '@/lib/services/constants';
 
 export const Footer = () => (
   <Flex
@@ -9,14 +10,7 @@ export const Footer = () => (
     width="full"
   >
     <Text fontSize="xs">
-      {new Date().getFullYear()} -{' '}
-      <Link
-        href="https://agustinusnathaniel.com"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        agustinusnathaniel.com
-      </Link>
+      {COPYRIGHT_TEXT}
     </Text>
   </Flex>
 );

@@ -1,9 +1,9 @@
-const APP_NAME = 'vite-react-chakra-starter';
+import {APP_NAME} from '@/lib/services/constants';
 
 export const Meta = () => (
   <>
-    <title>Vite React Chakra Starter</title>
-    <meta content="Vite React Chakra Starter Template" name="description" />
+    <title>{APP_NAME}: [Name] - [Professional Title]</title>
+    <meta content={`${APP_NAME}: [Name] - [Professional Title]`} name="description" />
 
     <meta content={APP_NAME} name="application-name" />
     <meta content="yes" name="apple-mobile-web-app-capable" />

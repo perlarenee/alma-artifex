@@ -1,13 +1,13 @@
 # Alma Artifex
 
-A profile for professional and career accomplishments, credentials and work history. Includes informal video responses to work-related questions, information about whether the professional is available for, or looking for, employment, and a way for the professional to be reached. 
+A profile for professional and career accomplishments, credentials and work history. Includes informal video responses to work-related questions, information about whether the professional is available for, or looking for, employment, and a way they can easily be reached. 
 
 The purpose of this app to provide a non-social media avenue for skilled workers showcase their career accomplishments. 
 
 Initially this will be a profile for my own use, built in React and hosted on AWS and built with AWS services. This will be a public repo so anyone is welcome to copy and use it for their own needs. As I'm able, I'll extend it to a multi-user application.
 
 ## About the name
-Alma is latin for "soul," "nourishing" or "kind." It's inspired by the term Alma Mater.
+Alma is latin for "soul," "nourishing," or "kind." It's inspired by the term Alma Mater as used in the educational world.
 
 Artifex is latin for "artist," "craftsperson," or "maker." 
 
