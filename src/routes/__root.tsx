@@ -5,8 +5,8 @@ import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
 import { Layout } from '@/lib/layout';
 import { getProfile } from '@/data/api';
 
-const description = 'app starter template';
-const url = 'https://vite-react-chakra-starter.sznm.dev';
+const description = 'Alma Artifex';
+const url = 'https://weblocomotive.com';
 const ogImgUrl =
   'https://og.sznm.dev/api/generate?heading=vite-react-chakra-starter&text=React+vite+template+with+Chakra+UI+and+TypeScript+setup.&template=color';
 

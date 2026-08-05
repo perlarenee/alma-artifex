@@ -13,14 +13,15 @@ export const LinkTree = ({socials}: LinkTreeProps) => (
 
     {socials.map((social) => (
       <Link
-      aria-label={SOCIAL_LABELS[social.platform]}
-      title={SOCIAL_LABELS[social.platform]}
-      href={social.url}
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      <Icon as={SOCIAL_ICONS[social.platform]} boxSize={ICON_SIZE} />
-    </Link>
+        key={social.platform}
+        aria-label={SOCIAL_LABELS[social.platform]}
+        title={SOCIAL_LABELS[social.platform]}
+        href={social.url}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <Icon as={SOCIAL_ICONS[social.platform]} boxSize={ICON_SIZE} />
+      </Link>
     ))}
     
   </Flex>

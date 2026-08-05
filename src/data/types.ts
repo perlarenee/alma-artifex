@@ -31,17 +31,41 @@ export interface WorkHistoryEntry {
   dateEnd: string | null;   // null = current
 }
 
+export interface Testimonials {
+    id: string;
+    name: string;
+    title: string;
+    company: string;
+    quote: string; // markdown
+    avatarUrl?: string;
+    role?: string;
+    year?: string;
+}
+
+export type ColorPalette = 'teal' | 'blue' | 'green' | 'red' | 'yellow' | 'purple' | 'pink' | 'orange';
+
+export interface ProfileOptions {
+  lookingForWork: boolean;
+  lfwPosition: 'top' | 'bottom';
+  lfwText: string;
+  colorPalette: ColorPalette;
+  textOffset?: string; 
+}
+
 export interface Profile {
   name: string;
   jobTitle: string;
   location: string;
   email: string;
   phone: string;
-  lookingForWork: boolean;
+  profileOptions: ProfileOptions[];
+    shortBio: string;
+    longBio: string;
   resumeUrl: string;
   photoUrl: string;
   videoID: string;
   socials: SocialLink[];
   credentials: Credential[];
+  testimonials: Testimonials[];
   workHistory: WorkHistoryEntry[];
 }
