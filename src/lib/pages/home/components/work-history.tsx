@@ -1,11 +1,13 @@
 import { Grid, Heading,Text, Bleed, Box} from '@chakra-ui/react';
-import type {Profile} from '@/data/types';
+import type {ProfileOptions, WorkHistoryEntry} from '@/data/types';
 
 interface WorkHistoryProps {
-  profile: Profile;
+  name: string;
+  options: ProfileOptions;
+  workHistory: WorkHistoryEntry[];
 }
 
-export const WorkHistory = ({profile}: WorkHistoryProps) => (
+export const WorkHistory = ({ workHistory}: WorkHistoryProps) => (
   <Grid gap={2} textAlign="center">
     <Heading fontWeight="extrabold" size="lg" mb={2}>
       Work History
@@ -13,7 +15,7 @@ export const WorkHistory = ({profile}: WorkHistoryProps) => (
     <Text mb={2}>
       work history in chakra timeline format with company name, title, responsibilities and accomplishments. Each entry should be in a card format with a shadow and rounded corners. The timeline should be centered horizontally on the page.
     </Text>
-    {profile.workHistory.map((entry, index) => (
+    {workHistory.map((entry, index) => (
       <Box key={index} p={4} borderRadius="md" shadow="sm" bg="whiteAlpha.200">
         <Heading fontWeight="bold" size="md" mb={1}>
           {entry.company}

@@ -1,5 +1,7 @@
 // src/data/types.ts
 
+import type { ReactNode } from 'react';
+
 export type SocialPlatform =
   | 'linkedin'
   | 'github'
@@ -48,7 +50,7 @@ export interface ProfileOptions {
   lookingForWork: boolean;
   lfwPosition: 'top' | 'bottom';
   lfwText: string;
-  colorPalette: ColorPalette;
+  colorPalette: ColorPalette; 
   textOffset?: string; 
 }
 
@@ -68,4 +70,14 @@ export interface Profile {
   credentials: Credential[];
   testimonials: Testimonials[];
   workHistory: WorkHistoryEntry[];
+}
+
+export interface PageSectionProps {
+  children: ReactNode;
+  bgLight?: string;
+  bgDark?: string;
+  maxW?: string | number | Record<string, string | number>;
+  py?: string | number | Record<string, string | number>;
+  px?: string | number | Record<string, string | number>;
+  gap?: string | number | Record<string, string | number>;
 }

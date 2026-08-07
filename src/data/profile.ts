@@ -16,10 +16,10 @@ export const profile: Profile = {
   profileOptions: [
     {
       lookingForWork: true,
-      lfwPosition: 'top',
-      lfwText: 'AVAILABLE FOR HIRE',
-      colorPalette: 'teal',
-      textOffset: "20%",
+      lfwPosition: 'bottom',
+      lfwText: '#AVAILABLE FOR HIRE',
+      colorPalette: 'purple',
+      textOffset: "25%",
     }
   ],
   socials: [

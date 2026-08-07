@@ -2,16 +2,18 @@
 
 import { useState } from 'react';
 import { Box, Image } from '@chakra-ui/react';
-import type { Profile } from '@/data/types';
+import { useColorModeValue } from '@/lib/components/ui/color-mode';
+import type { ProfileOptions } from '@/data/types';
 
 interface PhotoProps {
-  profile: Profile;
+  photoUrl: string;
+  options?: ProfileOptions;
+  name: string;
 }
 
 const SIZE = 220;
-const BORDER_WIDTH = 28;
 const FONT_SIZE = 14;
-const ARC_SPAN = 200; // degrees of the circle the text/border arc covers
+const ARC_SPAN = 359; // degrees of the circle the text/border arc covers
 const FALLBACK_SRC = '/assets/photo-placeholder.jpg';
 
 // angleDeg: 0 = top, 90 = right, 180 = bottom, 270 = left (clockwise)
@@ -36,26 +38,31 @@ function getArcPath(cx: number, cy: number, r: number, span: number, bottom = fa
   return `M ${p1.x} ${p1.y} A ${r} ${r} 0 ${largeArcFlag} ${sweepFlag} ${p2.x} ${p2.y}`;
 }
 
-export const ImageProfile = ({ profile }: PhotoProps) => {
-  const [imgSrc, setImgSrc] = useState(profile.photoUrl);
-
-  const options = profile.profileOptions[0];
+export const ImageProfile = ({ photoUrl, options, name }: PhotoProps) => {
+  const [imgSrc, setImgSrc] = useState(photoUrl);
   const radius = SIZE / 2;
-  const textPadding = options.lfwPosition === "bottom" ? 6 : 8;
+  const isBottomText = options?.lfwPosition === 'bottom';
+  const borderWidth = options?.lookingForWork ? 20 : 0;
+  //const strokeColor = `var(--chakra-colors-${options?.colorPalette ?? 'teal'}-500)`;
+
+  const accentColor = useColorModeValue(
+    `var(--chakra-colors-${options?.colorPalette ?? 'teal'}-500)`,
+    `var(--chakra-colors-${options?.colorPalette ?? 'teal'}-200)`
+  );
 
   const textPath = getArcPath(
     radius,
     radius,
-    radius - BORDER_WIDTH / 4 -textPadding,
+    radius - borderWidth / 4 - (isBottomText ? 4 : 6),
     ARC_SPAN,
-    options?.lfwPosition === 'bottom',
+    isBottomText,
   );
 
   return (
     <Box position="relative" width={`${SIZE}px`} height={`${SIZE}px`} margin="0 auto">
       <Image
         src={imgSrc}
-        alt={profile.name}
+        alt={name}
         onError={() => setImgSrc(FALLBACK_SRC)}
         position="absolute"
         top="0"
@@ -63,8 +70,7 @@ export const ImageProfile = ({ profile }: PhotoProps) => {
         width={`${SIZE}px`}
         height={`${SIZE}px`}
         borderRadius="full"
-        boxSizing="border-box"
-        border={`${BORDER_WIDTH}px solid var(--chakra-colors-${options?.colorPalette ?? 'teal'}-500)`}
+        objectPosition="center"
         objectFit="cover"
       />
 
@@ -75,6 +81,15 @@ export const ImageProfile = ({ profile }: PhotoProps) => {
           height={SIZE}
           viewBox={`0 0 ${SIZE} ${SIZE}`}
         >
+          <circle
+            cx={radius}
+            cy={radius}
+            r={Math.max(0, radius - borderWidth / 2)}
+            fill="none"
+            stroke={accentColor}
+            strokeWidth={borderWidth}
+            opacity={0.65}
+          />
           <defs>
             <path id="lfwTextPath" d={textPath} fill="none" />
           </defs>

@@ -1,17 +1,18 @@
 import { Grid, Heading, Text } from '@chakra-ui/react';
-import type {Profile} from '@/data/types';
 
 interface ShortBioProps {
-  profile: Profile;
+  name: string;
+  jobTitle: string;
+  location: string;
 }
 
-export const MetaPerson = ({profile}: ShortBioProps) => (
+export const MetaPerson = ({name, jobTitle, location}: ShortBioProps) => (
   <Grid gap={2} textAlign="center">
     <Heading fontWeight="extrabold" size="2xl">
-      {profile.name}
+      {name}
     </Heading>
     <Text textStyle="sm">
-      {profile.jobTitle} | {profile.location} 
+      {jobTitle} | {location} 
     </Text>
   </Grid>
 )
