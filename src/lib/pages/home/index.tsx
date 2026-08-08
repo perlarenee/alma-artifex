@@ -11,7 +11,7 @@ import { LinkTree } from './components/link-tree';
 import { MetaPerson } from './components/meta-person';
 import { PageSection } from './components/page-section';
 import { ShortBio } from './components/short-bio';
-import { Testimonials } from './components/testimonials';
+import { TestimonialMarquee } from './components/testimonials';
 import { VideoSection } from './components/video';
 import { WorkHistory } from './components/work-history';
 
@@ -89,11 +89,15 @@ export default function Home() {
           name={profile.name}
           options={profile.profileOptions[0]}
         />
-        <Education profile={profile} />
+        <Education education={profile.education} />
       </PageSection>
 
-      <PageSection bgDark="gray.800" bgLight="white" maxW="container.lg">
-        <Testimonials profile={profile} />
+      <PageSection
+        bgDark="gray.800"
+        bgLight="white"
+        maxW={{ base: '98%', lg: '4/5' }}
+      >
+        <TestimonialMarquee testimonials={profile.testimonials} />
       </PageSection>
 
       <PageSection

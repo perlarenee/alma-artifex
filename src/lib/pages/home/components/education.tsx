@@ -1,9 +1,9 @@
 import { Box, Em, Grid, Heading, List, ListItem, Text } from '@chakra-ui/react';
 
-import type { Profile } from '@/data/types';
+import type { EducationEntry } from '@/data/types';
 
 interface EducationProps {
-  profile: Profile;
+  education: Array<EducationEntry>;
 }
 
 const formatDate = (value: string | null) => {
@@ -22,14 +22,14 @@ const formatDate = (value: string | null) => {
   }).format(date);
 };
 
-export const Education = ({ profile }: EducationProps) => (
+export const Education = ({ education }: EducationProps) => (
   <Grid gap={4} textAlign="center">
     <Heading fontWeight="extrabold" mb={2} size="lg">
       Education & Degrees
     </Heading>
 
     <List.Root gap={3} maxW="container.md" mx="auto">
-      {profile.education.map((entry) => (
+      {education.map((entry) => (
         <ListItem key={entry.id ?? `${entry.institution}-${entry.degree}`}>
           <Box textAlign="left">
             <Text fontWeight="bold">{entry.degree}</Text>
