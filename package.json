@@ -22,6 +22,8 @@
     "generate-pwa-assets": "pwa-assets-generator",
     "ultracite:check": "ultracite check",
     "ultracite:fix": "ultracite fix",
+    "format:staged": "node ./scripts/format-staged.mjs",
+    "check:precommit": "pnpm format:staged && pnpm check:turbo",
     "biome:ci": "biome ci",
     "turbo": "pnpm dlx turbo@2.6.1",
     "type:check": "tsc",
