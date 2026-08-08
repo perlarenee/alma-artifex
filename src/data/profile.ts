@@ -12,7 +12,14 @@ export const profile: Profile = {
   longBio: 'A more detailed bio about yourself, your skills, and your experience. This can include your education, work history, and any other relevant information.',
   resumeUrl: '/assets/resume.pdf',
   photoUrl: '/assets/photo.jpg',
-  videoID: 'EngW7tLk6R8', 
+  videoOptions: [
+    {
+      videoSource: "vim",
+      videoID: '449787858', 
+      videoThumb: '/assets/videoThumb.jpg',
+      videoQuestion: "What do you love about your work?"
+    }
+  ],
   profileOptions: [
     {
       lookingForWork: true,
@@ -79,6 +86,24 @@ export const profile: Profile = {
       accomplishments: 'Lorum ipsum dolor sit amet, consectetur adipiscing elit.',
       dateStart: '2020-01-01',
       dateEnd: '2021-12-31',
+    },
+    {
+      id: '3',
+      company: 'Another Company',
+      title: 'Frontend Engineer',
+      responsibilities: 'Lorum ipsum dolor sit amet, consectetur adipiscing elit. Lorum ipsum dolor sit amet, consectetur adipiscing elit. Lorum ipsum dolor sit amet, consectetur adipiscing elit. Lorum ipsum dolor sit amet, consectetur adipiscing elit.',
+      accomplishments: 'Lorum ipsum dolor sit amet, consectetur adipiscing elit.',
+      dateStart: '2019-01-01',
+      dateEnd: '2019-12-31',
+    },
+    {
+      id: '4',
+      company: 'Another Company',
+      title: 'Frontend Engineer',
+      responsibilities: 'Lorum ipsum dolor sit amet, consectetur adipiscing elit.',
+      accomplishments: 'Lorum ipsum dolor sit amet, consectetur adipiscing elit.',
+      dateStart: '2018-01-01',
+      dateEnd: '2018-12-31',
     },
   ],
 };

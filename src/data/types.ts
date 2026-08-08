@@ -54,6 +54,13 @@ export interface ProfileOptions {
   textOffset?: string; 
 }
 
+export interface VideoOptions {
+  videoSource: 'yt' | 'vim';
+  videoID: string;
+  videoThumb?: string;
+  videoQuestion?: string;
+}
+
 export interface Profile {
   name: string;
   jobTitle: string;
@@ -65,7 +72,7 @@ export interface Profile {
     longBio: string;
   resumeUrl: string;
   photoUrl: string;
-  videoID: string;
+  videoOptions: VideoOptions[];
   socials: SocialLink[];
   credentials: Credential[];
   testimonials: Testimonials[];

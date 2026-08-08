@@ -21,7 +21,7 @@ export default function Home() {
 
   return (
     <Box textAlign="center">
-      <PageSection bgLight={colorPalette + '.50'} bgDark="gray.900" maxW={{ base: '98%', md: '2/3', lg: '1/3' }}>
+      <PageSection bgLight={colorPalette + '.50'} bgDark="gray.900" maxW={{ base: '98%', md: '2/3', lg: '1/2' }}>
 
         <ImageProfile photoUrl={profile.photoUrl} options={profile.profileOptions[0]} name={profile.name} />
         <MetaPerson name={profile.name} jobTitle={profile.jobTitle} location={profile.location} />
@@ -29,7 +29,7 @@ export default function Home() {
         <CTASection colorPalette={profile.profileOptions[0].colorPalette}/>
       </PageSection>
 
-      <PageSection bgLight="white" bgDark="gray.800" maxW={{ base: '98%', md: '2/3', lg: '1/3' }}>
+      <PageSection bgLight="white" bgDark="gray.800" maxW={{ base: '98%', md: '2/3', lg: '1/2' }}>
         <ShortBio name={profile.name} options={profile.profileOptions[0]} longBio={profile.longBio} shortBio={profile.shortBio} />
       </PageSection>
 
@@ -37,8 +37,8 @@ export default function Home() {
         <WorkHistory name={profile.name} options={profile.profileOptions[0]} workHistory={profile.workHistory} />
       </PageSection>
 
-      <PageSection bgLight="white" bgDark="gray.800" maxW="container.lg">
-        <VideoSection profile={profile} />
+      <PageSection bgLight="white" bgDark="gray.800" maxW={{ base: '98%', md: '2/3', lg: '1/2' }}>
+        <VideoSection videoOptions={profile.videoOptions} />
       </PageSection>
 
       <PageSection bgLight={colorPalette + '.50'}  bgDark="gray.900" maxW="container.lg">
