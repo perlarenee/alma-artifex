@@ -21,6 +21,8 @@ export const Footer = () => {
       as="footer"
       bg={bg}
       justifyContent="center"
+      pb={4}
+      pt={4}
       width="full"
     >
       <Text fontSize="xs">{COPYRIGHT_TEXT}</Text>

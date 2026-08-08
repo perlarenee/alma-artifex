@@ -103,7 +103,7 @@ export default function Home() {
       <PageSection
         bgDark="gray.900"
         bgLight={`${colorPalette}.50`}
-        maxW="container.lg"
+        maxW={{ base: '98%', lg: '1/2', md: '2/3' }}
       >
         <FormContact profile={profile} />
       </PageSection>
