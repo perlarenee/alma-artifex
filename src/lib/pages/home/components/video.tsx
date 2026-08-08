@@ -1,9 +1,29 @@
 import { Box, Grid, Heading, Text } from '@chakra-ui/react';
-import { useEffect, useRef, useState } from 'react';
+import {
+  type KeyboardEvent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
+
 import type { VideoOptions } from '@/data/types';
 
 declare global {
   interface Window {
+    onYouTubeIframeAPIReady?: () => void;
+    Vimeo?: {
+      Player: new (
+        element: HTMLIFrameElement,
+        options: Record<string, unknown>
+      ) => {
+        on: (
+          event: string,
+          callback: (...args: Array<unknown>) => void
+        ) => void;
+        destroy: () => void;
+      };
+    };
     YT?: {
       Player: new (
         element: HTMLElement,
@@ -15,18 +35,8 @@ declare global {
             onReady?: (event: { target: unknown }) => void;
             onStateChange?: (event: { data: number }) => void;
           };
-        },
+        }
       ) => {
-        destroy: () => void;
-      };
-    };
-    onYouTubeIframeAPIReady?: () => void;
-    Vimeo?: {
-      Player: new (
-        element: HTMLIFrameElement,
-        options: Record<string, unknown>,
-      ) => {
-        on: (event: string, callback: (...args: unknown[]) => void) => void;
         destroy: () => void;
       };
     };
@@ -34,7 +44,7 @@ declare global {
 }
 
 interface VideoSectionProps {
-  videoOptions: VideoOptions[];
+  videoOptions: Array<VideoOptions>;
 }
 
 export const VideoSection = ({ videoOptions }: VideoSectionProps) => {
@@ -42,14 +52,38 @@ export const VideoSection = ({ videoOptions }: VideoSectionProps) => {
   const youtubeContainerRef = useRef<HTMLDivElement | null>(null);
   const vimeoIframeRef = useRef<HTMLIFrameElement | null>(null);
   const youtubePlayerRef = useRef<{ destroy: () => void } | null>(null);
-  const vimeoPlayerRef = useRef<{ on: (event: string, callback: (...args: unknown[]) => void) => void; destroy: () => void } | null>(null);
-  const videoOption = videoOptions?.find((option) => option.videoSource === 'yt' || option.videoSource === 'vim');
+  const vimeoPlayerRef = useRef<{
+    on: (event: string, callback: (...args: Array<unknown>) => void) => void;
+    destroy: () => void;
+  } | null>(null);
+  const videoOption = videoOptions.find(
+    (option) => option.videoSource === 'yt' || option.videoSource === 'vim'
+  );
 
   const hasThumbnail = Boolean(videoOption?.videoThumb?.trim());
-  const shouldLazyLoad = typeof HTMLImageElement !== 'undefined' && 'loading' in HTMLImageElement.prototype;
+  const shouldLazyLoad =
+    typeof HTMLImageElement !== 'undefined' &&
+    'loading' in HTMLImageElement.prototype;
+  const startPlayback = useCallback(() => {
+    setIsPlaying(true);
+  }, []);
+
+  const handlePreviewKeyDown = useCallback(
+    (event: KeyboardEvent<HTMLElement>) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        startPlayback();
+      }
+    },
+    [startPlayback]
+  );
 
   useEffect(() => {
-    if (!isPlaying || videoOption?.videoSource !== 'yt' || !youtubeContainerRef.current) {
+    if (
+      !isPlaying ||
+      videoOption?.videoSource !== 'yt' ||
+      !youtubeContainerRef.current
+    ) {
       youtubePlayerRef.current?.destroy();
       youtubePlayerRef.current = null;
       return;
@@ -85,28 +119,36 @@ export const VideoSection = ({ videoOptions }: VideoSectionProps) => {
     };
 
     loadYouTubeApi().then(() => {
-      if (cancelled || !window.YT || !youtubeContainerRef.current || !videoOption?.videoID) {
+      if (
+        cancelled ||
+        !window.YT ||
+        !youtubeContainerRef.current ||
+        !videoOption?.videoID
+      ) {
         return;
       }
 
       youtubePlayerRef.current?.destroy();
-      youtubePlayerRef.current = new window.YT.Player(youtubeContainerRef.current, {
-        videoId: videoOption.videoID,
-        host: 'https://www.youtube-nocookie.com',
-        playerVars: {
-          autoplay: 1,
-          modestbranding: 1,
-          color: 'white',
-          rel: 0,
-        },
-        events: {
-          onStateChange: (event) => {
-            if (event.data === 0) {
-              setIsPlaying(false);
-            }
+      youtubePlayerRef.current = new window.YT.Player(
+        youtubeContainerRef.current,
+        {
+          events: {
+            onStateChange: (event) => {
+              if (event.data === 0) {
+                setIsPlaying(false);
+              }
+            },
           },
-        },
-      });
+          host: 'https://www.youtube-nocookie.com',
+          playerVars: {
+            autoplay: 1,
+            color: 'white',
+            modestbranding: 1,
+            rel: 0,
+          },
+          videoId: videoOption.videoID,
+        }
+      );
     });
 
     return () => {
@@ -117,7 +159,11 @@ export const VideoSection = ({ videoOptions }: VideoSectionProps) => {
   }, [isPlaying, videoOption?.videoID, videoOption?.videoSource]);
 
   useEffect(() => {
-    if (!isPlaying || videoOption?.videoSource !== 'vim' || !vimeoIframeRef.current) {
+    if (
+      !isPlaying ||
+      videoOption?.videoSource !== 'vim' ||
+      !vimeoIframeRef.current
+    ) {
       vimeoPlayerRef.current?.destroy();
       vimeoPlayerRef.current = null;
       return;
@@ -135,24 +181,33 @@ export const VideoSection = ({ videoOptions }: VideoSectionProps) => {
         script.src = 'https://player.vimeo.com/api/player.js';
         script.async = true;
         script.onload = () => resolve();
-        script.onerror = () => reject(new Error('Failed to load Vimeo player API'));
+        script.onerror = () =>
+          reject(new Error('Failed to load Vimeo player API'));
         document.body.appendChild(script);
       });
     };
 
     loadVimeoApi()
       .then(() => {
-        if (cancelled || !window.Vimeo || !vimeoIframeRef.current || !videoOption?.videoID) {
+        if (
+          cancelled ||
+          !window.Vimeo ||
+          !vimeoIframeRef.current ||
+          !videoOption?.videoID
+        ) {
           return;
         }
 
         vimeoPlayerRef.current?.destroy();
-        vimeoPlayerRef.current = new window.Vimeo.Player(vimeoIframeRef.current, {
-          id: videoOption.videoID,
-          autoplay: true,
-          controls: true,
-          dnt: true,
-        });
+        vimeoPlayerRef.current = new window.Vimeo.Player(
+          vimeoIframeRef.current,
+          {
+            autoplay: true,
+            controls: true,
+            dnt: true,
+            id: videoOption.videoID,
+          }
+        );
 
         vimeoPlayerRef.current.on('ended', () => {
           setIsPlaying(false);
@@ -169,114 +224,143 @@ export const VideoSection = ({ videoOptions }: VideoSectionProps) => {
     };
   }, [isPlaying, videoOption?.videoID, videoOption?.videoSource]);
 
+  let videoContent: React.JSX.Element;
+
+  if (isPlaying && videoOption?.videoSource === 'yt') {
+    videoContent = (
+      <Box
+        borderRadius="md"
+        maxW="container.md"
+        mx="auto"
+        overflow="hidden"
+        w="full"
+      >
+        <Box aspectRatio="16 / 9" position="relative" w="full">
+          <div
+            ref={youtubeContainerRef}
+            style={{
+              height: '100%',
+              inset: 0,
+              position: 'absolute',
+              width: '100%',
+            }}
+          />
+        </Box>
+      </Box>
+    );
+  } else if (isPlaying && videoOption?.videoSource === 'vim') {
+    videoContent = (
+      <Box
+        borderRadius="md"
+        maxW="container.md"
+        mx="auto"
+        overflow="hidden"
+        w="full"
+      >
+        <Box aspectRatio="16 / 9" position="relative" w="full">
+          <iframe
+            allow="autoplay; fullscreen; picture-in-picture"
+            allowFullScreen
+            loading="lazy"
+            ref={vimeoIframeRef}
+            referrerPolicy="strict-origin-when-cross-origin"
+            src={`https://player.vimeo.com/video/${videoOption.videoID}?autoplay=1&title=0&byline=0&portrait=0`}
+            style={{
+              border: 0,
+              borderRadius: 'var(--chakra-radii-md)',
+              height: '100%',
+              inset: 0,
+              position: 'absolute',
+              width: '100%',
+            }}
+            title="Vimeo video"
+          />
+        </Box>
+      </Box>
+    );
+  } else if (hasThumbnail) {
+    videoContent = (
+      <Box
+        borderRadius="md"
+        cursor="pointer"
+        maxW="container.md"
+        mx="auto"
+        onClick={startPlayback}
+        onKeyDown={handlePreviewKeyDown}
+        overflow="hidden"
+        role="button"
+        tabIndex={0}
+        w="full"
+      >
+        <Box
+          aspectRatio="16 / 9"
+          bg="blackAlpha.800"
+          position="relative"
+          w="full"
+        >
+          <img
+            alt={videoOption?.videoQuestion ?? 'Video preview'}
+            decoding="async"
+            loading={shouldLazyLoad ? 'lazy' : undefined}
+            src={videoOption?.videoThumb}
+            style={{
+              height: '100%',
+              inset: 0,
+              objectFit: 'cover',
+              position: 'absolute',
+              width: '100%',
+            }}
+          />
+          <Box
+            alignItems="center"
+            bg="blackAlpha.400"
+            color="white"
+            display="flex"
+            fontSize="4xl"
+            fontWeight="bold"
+            inset={0}
+            justifyContent="center"
+            position="absolute"
+          >
+            ▶
+          </Box>
+        </Box>
+      </Box>
+    );
+  } else {
+    videoContent = (
+      <Box
+        borderColor="gray.200"
+        borderRadius="md"
+        borderWidth="1px"
+        cursor="pointer"
+        maxW="container.md"
+        mx="auto"
+        onClick={startPlayback}
+        onKeyDown={handlePreviewKeyDown}
+        p={6}
+        role="button"
+        tabIndex={0}
+        w="full"
+      >
+        <Text color="fg.muted">Play video</Text>
+      </Box>
+    );
+  }
+
   return (
     <Grid gap={4} textAlign="center">
       <Heading fontWeight="extrabold" size="lg">
         Let's talk!
       </Heading>
 
-      {videoOption?.videoQuestion && (
-        <Text color="fg.muted" fontStyle="italic">"{videoOption?.videoQuestion}"</Text>
-      )}
+      {videoOption?.videoQuestion ? (
+        <Text color="fg.muted" fontStyle="italic">
+          "{videoOption?.videoQuestion}"
+        </Text>
+      ) : null}
 
-      {isPlaying && videoOption?.videoSource === 'yt' ? (
-        <Box mx="auto" w="full" maxW="container.md" overflow="hidden" borderRadius="md">
-          <Box position="relative" w="full" aspectRatio="16 / 9">
-            <div ref={youtubeContainerRef} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }} />
-          </Box>
-        </Box>
-      ) : isPlaying && videoOption?.videoSource === 'vim' ? (
-        <Box mx="auto" w="full" maxW="container.md" overflow="hidden" borderRadius="md">
-          <Box position="relative" w="full" aspectRatio="16 / 9">
-            <iframe
-              ref={vimeoIframeRef}
-              src={`https://player.vimeo.com/video/${videoOption.videoID}?autoplay=1&title=0&byline=0&portrait=0`}
-              title="Vimeo video"
-              allow="autoplay; fullscreen; picture-in-picture"
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="strict-origin-when-cross-origin"
-              style={{
-                position: 'absolute',
-                inset: 0,
-                width: '100%',
-                height: '100%',
-                border: 0,
-                borderRadius: 'var(--chakra-radii-md)',
-              }}
-            />
-          </Box>
-        </Box>
-      ) : hasThumbnail ? (
-        <Box
-          mx="auto"
-          w="full"
-          maxW="container.md"
-          overflow="hidden"
-          borderRadius="md"
-          cursor="pointer"
-          onClick={() => setIsPlaying(true)}
-          role="button"
-          tabIndex={0}
-          onKeyDown={(event) => {
-            if (event.key === 'Enter' || event.key === ' ') {
-              event.preventDefault();
-              setIsPlaying(true);
-            }
-          }}
-        >
-          <Box position="relative" w="full" aspectRatio="16 / 9" bg="blackAlpha.800">
-            <img
-              src={videoOption?.videoThumb}
-              alt={videoOption?.videoQuestion ?? 'Video preview'}
-              loading={shouldLazyLoad ? 'lazy' : undefined}
-              decoding="async"
-              style={{
-                position: 'absolute',
-                inset: 0,
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-              }}
-            />
-            <Box
-              position="absolute"
-              inset={0}
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
-              bg="blackAlpha.400"
-              color="white"
-              fontSize="4xl"
-              fontWeight="bold"
-            >
-              ▶
-            </Box>
-          </Box>
-        </Box>
-      ) : (
-        <Box
-          mx="auto"
-          w="full"
-          maxW="container.md"
-          borderRadius="md"
-          borderWidth="1px"
-          borderColor="gray.200"
-          p={6}
-          cursor="pointer"
-          onClick={() => setIsPlaying(true)}
-          role="button"
-          tabIndex={0}
-          onKeyDown={(event) => {
-            if (event.key === 'Enter' || event.key === ' ') {
-              event.preventDefault();
-              setIsPlaying(true);
-            }
-          }}
-        >
-          <Text color="fg.muted">Play video</Text>
-        </Box>
-      )}
+      {videoContent}
     </Grid>
   );
 };

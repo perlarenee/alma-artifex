@@ -1,40 +1,41 @@
 import { QueryClient } from '@tanstack/react-query';
 import type { IconType } from 'react-icons';
 import {
-  FaLinkedin,
-  FaGithub,
-  FaXTwitter,
   FaBluesky,
-  FaYoutube,
+  FaGithub,
   FaGlobe,
+  FaLinkedin,
+  FaXTwitter,
+  FaYoutube,
 } from 'react-icons/fa6';
-import type { SocialPlatform, CredentialType } from '../../data/types';
+
+import type { CredentialType, SocialPlatform } from '../../data/types';
 
 export const queryClient = new QueryClient();
 
 export const SOCIAL_ICONS: Record<SocialPlatform, IconType> = {
-  linkedin: FaLinkedin,
-  github: FaGithub,
-  twitter: FaXTwitter,
   bluesky: FaBluesky,
-  youtube: FaYoutube,
+  github: FaGithub,
+  linkedin: FaLinkedin,
+  twitter: FaXTwitter,
   website: FaGlobe,
+  youtube: FaYoutube,
 };
 
 export const SOCIAL_LABELS: Record<SocialPlatform, string> = {
-  linkedin: 'LinkedIn',
-  github: 'GitHub',
-  twitter: 'X / Twitter',
   bluesky: 'Bluesky',
-  youtube: 'YouTube',
+  github: 'GitHub',
+  linkedin: 'LinkedIn',
+  twitter: 'X / Twitter',
   website: 'Website',
+  youtube: 'YouTube',
 };
 
 export const CREDENTIAL_LABELS: Record<CredentialType, string> = {
+  award: 'Award',
   certification: 'Certification',
   degree: 'Degree',
   license: 'License',
-  award: 'Award',
 };
 
 export const COPYRIGHT_TEXT = '© 2026 Alma Artifex. All rights reserved.';

@@ -2,8 +2,8 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { createRootRoute, HeadContent, Outlet } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
 
-import { Layout } from '@/lib/layout';
 import { getProfile } from '@/data/api';
+import { Layout } from '@/lib/layout';
 
 const description = 'Alma Artifex';
 const url = 'https://weblocomotive.com';
@@ -11,7 +11,6 @@ const ogImgUrl =
   'https://og.sznm.dev/api/generate?heading=vite-react-chakra-starter&text=React+vite+template+with+Chakra+UI+and+TypeScript+setup.&template=color';
 
 export const Route = createRootRoute({
-  loader: () => getProfile(),
   component: () => (
     <>
       <HeadContent />
@@ -64,4 +63,5 @@ export const Route = createRootRoute({
       ],
     };
   },
+  loader: () => getProfile(),
 });

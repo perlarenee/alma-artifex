@@ -33,7 +33,7 @@ export function invalidateProfileCache(): void {
  * Not wired to any UI yet —  documenting the intended shape.
  * Later: this will PUT/POST to a Lambda endpoint that writes to DynamoDB.
  */
-export async function updateProfile(updated: Profile): Promise<Profile> {
+export function updateProfile(updated: Profile): Promise<Profile> {
   invalidateProfileCache();
   // later: await fetch('/api/profile', { method: 'PUT', body: JSON.stringify(updated) });
   cachedProfile = Promise.resolve(updated);

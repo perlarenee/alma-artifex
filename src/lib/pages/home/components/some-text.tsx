@@ -5,8 +5,6 @@ export const SomeText = () => (
     <Heading fontWeight="extrabold" size="2xl">
       [NAME]
     </Heading>
-    <Text textStyle="sm">
-      [Professional Title] | [Location] 
-    </Text>
+    <Text textStyle="sm">[Professional Title] | [Location]</Text>
   </Grid>
 );

@@ -1,6 +1,7 @@
 import { Box, Container } from '@chakra-ui/react';
-import { useColorModeValue } from '@/lib/components/ui/color-mode';
+
 import type { PageSectionProps } from '@/data/types';
+import { useColorModeValue } from '@/lib/components/ui/color-mode';
 
 export function PageSection({
   children,
@@ -13,11 +14,11 @@ export function PageSection({
 }: PageSectionProps) {
   const backgroundColor = useColorModeValue(
     bgLight ?? 'transparent',
-    bgDark ?? bgLight ?? 'transparent',
+    bgDark ?? bgLight ?? 'transparent'
   );
 
   return (
-    <Box as="section" width="100%" bg={backgroundColor} py={py}>
+    <Box as="section" bg={backgroundColor} py={py} width="100%">
       <Container maxW={maxW} px={px}>
         <Box display="flex" flexDirection="column" gap={gap}>
           {children}
