@@ -3,7 +3,6 @@ import {
   Box,
   Card,
   Grid,
-  Heading,
   HStack,
   Marquee,
   Stack,
@@ -12,6 +11,8 @@ import {
 import { IoStar } from 'react-icons/io5';
 
 import type { Testimonials } from '@/data/types';
+import { RevealOnScroll } from '@/lib/components/ui/reveal-on-scroll';
+import { SectionHeader } from '@/lib/components/ui/section-header';
 
 interface TestimonialsProps {
   testimonials: Array<Testimonials>;
@@ -59,9 +60,9 @@ const TestimonialCard = ({ testimonial }: { testimonial: Testimonials }) => (
 
 export const TestimonialMarquee = ({ testimonials }: TestimonialsProps) => (
   <Grid gap={4} textAlign="center">
-    <Heading fontWeight="extrabold" mb={2} size="lg">
-      Testimonials
-    </Heading>
+    <RevealOnScroll>
+      <SectionHeader p={4}>TESTIMONIALS</SectionHeader>
+    </RevealOnScroll>
 
     {testimonials.length > 0 ? (
       <Marquee.Root pauseOnInteraction py="10">

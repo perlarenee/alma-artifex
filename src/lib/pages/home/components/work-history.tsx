@@ -3,13 +3,14 @@ import {
   Box,
   Card,
   Grid,
-  Heading,
   Stack,
   Text,
   Timeline,
 } from '@chakra-ui/react';
 
 import type { ProfileOptions, WorkHistoryEntry } from '@/data/types';
+import { RevealOnScroll } from '@/lib/components/ui/reveal-on-scroll';
+import { SectionHeader } from '@/lib/components/ui/section-header';
 
 interface WorkHistoryProps {
   name: string;
@@ -90,24 +91,26 @@ export const WorkHistory = ({ options, workHistory }: WorkHistoryProps) => {
           <Timeline.Content flex="1" />
         ) : (
           <Timeline.Content {...leftContentProps}>
-            <Card.Root maxW="xl" ml="auto" textAlign="right" textStyle="sm">
-              <Card.Body>
-                <Card.Title>{entry.company}</Card.Title>
-                <Card.Description mb="2">
-                  {entry.title} • {dates}
-                </Card.Description>
-                <Stack gap="2">
-                  <Text fontWeight="bold" textDecoration="underline">
-                    Responsibilities:
-                  </Text>
-                  <Text>{entry.responsibilities}</Text>
-                  <Text fontWeight="bold" textDecoration="underline">
-                    Accomplishments:
-                  </Text>
-                  <Text> {entry.accomplishments}</Text>
-                </Stack>
-              </Card.Body>
-            </Card.Root>
+            <RevealOnScroll>
+              <Card.Root maxW="xl" ml="auto" textAlign="right" textStyle="sm">
+                <Card.Body>
+                  <Card.Title>{entry.company}</Card.Title>
+                  <Card.Description mb="2">
+                    {entry.title} • {dates}
+                  </Card.Description>
+                  <Stack gap="2">
+                    <Text fontWeight="bold" textDecoration="underline">
+                      Responsibilities:
+                    </Text>
+                    <Text>{entry.responsibilities}</Text>
+                    <Text fontWeight="bold" textDecoration="underline">
+                      Accomplishments:
+                    </Text>
+                    <Text> {entry.accomplishments}</Text>
+                  </Stack>
+                </Card.Body>
+              </Card.Root>
+            </RevealOnScroll>
           </Timeline.Content>
         )}
         <Timeline.Connector>
@@ -117,24 +120,26 @@ export const WorkHistory = ({ options, workHistory }: WorkHistoryProps) => {
 
         {isAlternating ? (
           <Timeline.Content {...rightContentProps}>
-            <Card.Root maxW="xl" textAlign="left" textStyle="sm">
-              <Card.Body>
-                <Card.Title>{entry.company}</Card.Title>
-                <Card.Description mb="2">
-                  {entry.title} • {dates}
-                </Card.Description>
-                <Stack gap="2">
-                  <Text fontWeight="bold" textDecoration="underline">
-                    Responsibilities:
-                  </Text>
-                  <Text>{entry.responsibilities}</Text>
-                  <Text fontWeight="bold" textDecoration="underline">
-                    Accomplishments:
-                  </Text>
-                  <Text> {entry.accomplishments}</Text>
-                </Stack>
-              </Card.Body>
-            </Card.Root>
+            <RevealOnScroll offset="120px">
+              <Card.Root maxW="xl" textAlign="left" textStyle="sm">
+                <Card.Body>
+                  <Card.Title>{entry.company}</Card.Title>
+                  <Card.Description mb="2">
+                    {entry.title} • {dates}
+                  </Card.Description>
+                  <Stack gap="2">
+                    <Text fontWeight="bold" textDecoration="underline">
+                      Responsibilities:
+                    </Text>
+                    <Text>{entry.responsibilities}</Text>
+                    <Text fontWeight="bold" textDecoration="underline">
+                      Accomplishments:
+                    </Text>
+                    <Text> {entry.accomplishments}</Text>
+                  </Stack>
+                </Card.Body>
+              </Card.Root>
+            </RevealOnScroll>
           </Timeline.Content>
         ) : (
           <Timeline.Content flex="1" />
@@ -145,24 +150,26 @@ export const WorkHistory = ({ options, workHistory }: WorkHistoryProps) => {
 
   return (
     <Grid gap={6} textAlign="center">
-      <Heading fontWeight="extrabold" size="lg">
-        WORK HISTORY
-      </Heading>
+      <RevealOnScroll>
+        <SectionHeader p={4}>WORK HISTORY</SectionHeader>
+      </RevealOnScroll>
 
-      <Box
-        display={{ base: 'block', md: 'none' }}
-        maxW="container.sm"
-        mx="auto"
-        w="full"
-      >
-        <Accordion.Root
-          collapsible
-          defaultValue={[workHistory[0]?.id]}
-          variant="outline"
+      <RevealOnScroll>
+        <Box
+          display={{ base: 'block', md: 'none' }}
+          maxW="container.sm"
+          mx="auto"
+          w="full"
         >
-          {workHistory.map((entry) => renderEntry(entry, true))}
-        </Accordion.Root>
-      </Box>
+          <Accordion.Root
+            collapsible
+            defaultValue={[workHistory[0]?.id]}
+            variant="outline"
+          >
+            {workHistory.map((entry) => renderEntry(entry, true))}
+          </Accordion.Root>
+        </Box>
+      </RevealOnScroll>
 
       <Timeline.Root
         colorPalette={accentColor}

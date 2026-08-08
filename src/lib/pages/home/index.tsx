@@ -1,5 +1,6 @@
 import { Box } from '@chakra-ui/react';
 
+import { PageSection } from '@/lib/components/ui/page-section';
 import { useProfile } from '@/lib/components/ui/profile-provider';
 
 import { Credentials } from './components/credentials';
@@ -9,7 +10,6 @@ import { FormContact } from './components/form-contact';
 import { ImageProfile } from './components/image-profile';
 import { LinkTree } from './components/link-tree';
 import { MetaPerson } from './components/meta-person';
-import { PageSection } from './components/page-section';
 import { ShortBio } from './components/short-bio';
 import { TestimonialMarquee } from './components/testimonials';
 import { VideoSection } from './components/video';
@@ -40,9 +40,15 @@ export default function Home() {
           jobTitle={profile.jobTitle}
           location={profile.location}
           name={profile.name}
+          nickname={profile.nickname}
+          pronouns={profile.pronouns}
         />
         <LinkTree socials={profile.socials} />
-        <CTASection colorPalette={profile.profileOptions[0].colorPalette} />
+        <CTASection
+          colorPalette={profile.profileOptions[0].colorPalette}
+          portfolioUrl={profile.portfolioUrl}
+          resumeUrl={profile.resumeUrl}
+        />
       </PageSection>
 
       <PageSection
@@ -103,6 +109,7 @@ export default function Home() {
       <PageSection
         bgDark="gray.900"
         bgLight={`${colorPalette}.50`}
+        id="contactSection"
         maxW={{ base: '98%', lg: '1/2', md: '2/3' }}
       >
         <FormContact profile={profile} />

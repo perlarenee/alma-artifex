@@ -12,6 +12,7 @@ import {
 import { FaCertificate } from 'react-icons/fa';
 
 import type { Credential, ProfileOptions } from '@/data/types';
+import { RevealOnScroll } from '@/lib/components/ui/reveal-on-scroll';
 
 interface CredentialsProps {
   colorPalette?: string;
@@ -41,9 +42,11 @@ export const Credentials = ({
 
   return (
     <Grid gap={4} textAlign="center">
-      <Heading fontWeight="extrabold" mb={2} size="lg">
-        Certificates and Credentials
-      </Heading>
+      <RevealOnScroll>
+        <Heading size={{ base: 'xl', lg: '3xl', md: '2xl' }}>
+          CERTIFICATIONS & CREDENTIALS
+        </Heading>
+      </RevealOnScroll>
 
       {credentials.length > 0 ? (
         <Grid
@@ -57,60 +60,62 @@ export const Credentials = ({
         >
           {credentials.map((credential) => (
             <>
-              <Card.Root
-                alignItems="flex-start"
-                borderRadius="md"
-                borderWidth="1px"
-                boxShadow="md"
-                flex="1"
-                flexDirection="row"
-                gap={4}
-                key={credential.name}
-                maxW="xl"
-                overflow="hidden"
-                p={6}
-                textAlign="left"
-                textStyle="sm"
-              >
-                {credential.img ? (
-                  <Box m="0" maxW="1/3" p="0">
-                    <Image
-                      alt={credential.name}
-                      objectFit="fill"
-                      src={credential.img}
-                    />
-                  </Box>
-                ) : null}
-                <Box m="0" maxW="2/3" p="0">
-                  <Card.Body gap="2">
-                    <Card.Title>{credential.name}</Card.Title>
-                    <Card.Description>
-                      <Text>
-                        <Span fontWeight="bold">Type:</Span> {credential.type}
-                      </Text>
-                      {credential.validUntil ? (
+              <RevealOnScroll>
+                <Card.Root
+                  alignItems="flex-start"
+                  borderRadius="md"
+                  borderWidth="1px"
+                  boxShadow="md"
+                  flex="1"
+                  flexDirection="row"
+                  gap={4}
+                  key={credential.name}
+                  maxW="xl"
+                  overflow="hidden"
+                  p={6}
+                  textAlign="left"
+                  textStyle="sm"
+                >
+                  {credential.img ? (
+                    <Box m="0" maxW="1/3" p="0">
+                      <Image
+                        alt={credential.name}
+                        objectFit="fill"
+                        src={credential.img}
+                      />
+                    </Box>
+                  ) : null}
+                  <Box m="0" maxW="2/3" p="0">
+                    <Card.Body gap="2">
+                      <Card.Title>{credential.name}</Card.Title>
+                      <Card.Description>
                         <Text>
-                          <Span fontWeight="bold">Valid Until:</Span>{' '}
-                          {formatDate(credential.validUntil)}
+                          <Span fontWeight="bold">Type:</Span> {credential.type}
                         </Text>
+                        {credential.validUntil ? (
+                          <Text>
+                            <Span fontWeight="bold">Valid Until:</Span>{' '}
+                            {formatDate(credential.validUntil)}
+                          </Text>
+                        ) : null}
+                      </Card.Description>
+                    </Card.Body>
+                    <Card.Footer gap="2">
+                      {credential.link ? (
+                        <Button asChild colorPalette={colorPalette} size="sm">
+                          <Link
+                            href={credential.link}
+                            rel="noopener noreferrer"
+                            target="_blank"
+                          >
+                            <FaCertificate /> View Credential
+                          </Link>
+                        </Button>
                       ) : null}
-                    </Card.Description>
-                  </Card.Body>
-                  <Card.Footer gap="2">
-                    {credential.link ? (
-                      <Button asChild colorPalette={colorPalette} size="sm">
-                        <Link
-                          href={credential.link}
-                          rel="noopener noreferrer"
-                          target="_blank"
-                        >
-                          <FaCertificate /> View Credential
-                        </Link>
-                      </Button>
-                    ) : null}
-                  </Card.Footer>
-                </Box>
-              </Card.Root>
+                    </Card.Footer>
+                  </Box>
+                </Card.Root>
+              </RevealOnScroll>
             </>
           ))}
         </Grid>

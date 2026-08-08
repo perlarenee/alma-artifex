@@ -7,6 +7,7 @@ export function PageSection({
   children,
   bgLight,
   bgDark,
+  id,
   maxW = 'container.sm',
   py = { base: 8, md: 12 },
   px = { base: 4, md: 6 },
@@ -18,7 +19,7 @@ export function PageSection({
   );
 
   return (
-    <Box as="section" bg={backgroundColor} py={py} width="100%">
+    <Box as="section" bg={backgroundColor} id={id} py={py} width="100%">
       <Container maxW={maxW} px={px}>
         <Box display="flex" flexDirection="column" gap={gap}>
           {children}

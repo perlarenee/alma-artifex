@@ -1,4 +1,4 @@
-import { Box, Grid, Heading, Text } from '@chakra-ui/react';
+import { Box, Grid, Text } from '@chakra-ui/react';
 import {
   type KeyboardEvent,
   useCallback,
@@ -8,6 +8,8 @@ import {
 } from 'react';
 
 import type { VideoOptions } from '@/data/types';
+import { RevealOnScroll } from '@/lib/components/ui/reveal-on-scroll';
+import { SectionHeader } from '@/lib/components/ui/section-header';
 
 declare global {
   interface Window {
@@ -350,17 +352,16 @@ export const VideoSection = ({ videoOptions }: VideoSectionProps) => {
 
   return (
     <Grid gap={4} textAlign="center">
-      <Heading fontWeight="extrabold" size="lg">
-        Let's talk!
-      </Heading>
-
+      <RevealOnScroll>
+        <SectionHeader p={4}>LET'S TALK...</SectionHeader>
+      </RevealOnScroll>
       {videoOption?.videoQuestion ? (
         <Text color="fg.muted" fontStyle="italic">
           "{videoOption?.videoQuestion}"
         </Text>
       ) : null}
 
-      {videoContent}
+      <RevealOnScroll>{videoContent}</RevealOnScroll>
     </Grid>
   );
 };

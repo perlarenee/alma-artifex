@@ -1,26 +1,20 @@
-import {
-  Box,
-  Button,
-  Field,
-  Grid,
-  Heading,
-  Input,
-  Textarea,
-} from '@chakra-ui/react';
+import { Box, Button, Field, Grid, Input, Textarea } from '@chakra-ui/react';
 import { Form, Formik, type FormikHelpers } from 'formik';
 import { object, string, ValidationError } from 'yup';
 
 import type { Profile } from '@/data/types';
+import { RevealOnScroll } from '@/lib/components/ui/reveal-on-scroll';
+import { SectionHeader } from '@/lib/components/ui/section-header';
 
 interface FormContactProps {
   profile: Profile;
 }
 
 interface ContactFormValues {
-  company: string;
   email: string;
   message: string;
   name: string;
+  reference: string;
 }
 
 const MAX_LENGTHS = {
@@ -45,18 +39,13 @@ const sanitizeText = (value: string) => {
 export const sanitizeContactFormValues = (
   values: Partial<ContactFormValues>
 ): ContactFormValues => ({
-  company: (values.company ?? '').trim(),
   email: sanitizeText(values.email ?? '').toLowerCase(),
   message: sanitizeText(values.message ?? ''),
   name: sanitizeText(values.name ?? ''),
+  reference: (values.reference ?? '').trim(),
 });
 
 const validationSchema = object({
-  company: string().test(
-    'honeypot-empty',
-    'Unexpected submission',
-    (value) => !value || value.trim().length === 0
-  ),
   email: string()
     .trim()
     .email('Please enter a valid email address')
@@ -70,6 +59,11 @@ const validationSchema = object({
     .trim()
     .max(MAX_LENGTHS.name, 'Name is too long')
     .required('Name is required'),
+  reference: string().test(
+    'honeypot-empty',
+    'Please complete the form correctly',
+    (value) => !value || value.trim().length === 0
+  ),
 });
 
 export const validateContactForm = (values: ContactFormValues) => {
@@ -81,10 +75,10 @@ export const validateContactForm = (values: ContactFormValues) => {
   } catch (error) {
     if (!(error instanceof ValidationError)) {
       return {
-        company: 'Unexpected submission',
         email: 'Please enter a valid email address',
         message: 'Please enter your message',
         name: 'Name is required',
+        reference: 'Please complete the form correctly',
       } as Record<keyof ContactFormValues, string>;
     }
 
@@ -101,10 +95,10 @@ export const validateContactForm = (values: ContactFormValues) => {
 };
 
 const initialValues: ContactFormValues = {
-  company: '',
   email: '',
   message: '',
   name: '',
+  reference: '',
 };
 
 const submitContactForm = async (
@@ -113,11 +107,11 @@ const submitContactForm = async (
 ) => {
   const sanitizedValues = sanitizeContactFormValues(values);
   const payload = {
-    company: sanitizedValues.company,
     email: sanitizedValues.email,
     message: sanitizedValues.message,
     name: sanitizedValues.name,
     recipientEmail: sanitizedValues.email,
+    reference: sanitizedValues.reference,
     source: 'portfolio-contact-form',
   };
 
@@ -149,9 +143,9 @@ const submitContactForm = async (
 
 export const FormContact = ({ profile }: FormContactProps) => (
   <Grid gap={4} textAlign="center">
-    <Heading fontWeight="extrabold" mb={2} size="lg">
-      Contact {profile.name}
-    </Heading>
+    <RevealOnScroll>
+      <SectionHeader p={4}>CONTACT - {profile.name}</SectionHeader>
+    </RevealOnScroll>
 
     <Formik
       initialValues={initialValues}
@@ -166,81 +160,88 @@ export const FormContact = ({ profile }: FormContactProps) => (
         status,
         touched,
       }) => (
-        <Form>
-          <Grid gap={4} maxW="container.md" mx="auto" textAlign="left">
-            <Field.Root invalid={Boolean(touched.name && errors.name)}>
-              <Field.Label>Name</Field.Label>
-              <Input
-                maxLength={MAX_LENGTHS.name}
-                name="name"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                placeholder="Your name"
-              />
-              {touched.name && errors.name ? (
-                <Field.ErrorText>{errors.name}</Field.ErrorText>
+        <RevealOnScroll>
+          <Form>
+            <Grid gap={4} maxW="container.md" mx="auto" textAlign="left">
+              <Field.Root invalid={Boolean(touched.name && errors.name)}>
+                <Field.Label>Name</Field.Label>
+                <Input
+                  maxLength={MAX_LENGTHS.name}
+                  name="name"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  placeholder="Your name"
+                />
+                {touched.name && errors.name ? (
+                  <Field.ErrorText>{errors.name}</Field.ErrorText>
+                ) : null}
+              </Field.Root>
+
+              <Field.Root invalid={Boolean(touched.email && errors.email)}>
+                <Field.Label>Email</Field.Label>
+                <Input
+                  maxLength={MAX_LENGTHS.email}
+                  name="email"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  placeholder="you@example.com"
+                  type="email"
+                />
+                {touched.email && errors.email ? (
+                  <Field.ErrorText>{errors.email}</Field.ErrorText>
+                ) : null}
+              </Field.Root>
+
+              <Field.Root invalid={Boolean(touched.message && errors.message)}>
+                <Field.Label>Message</Field.Label>
+                <Textarea
+                  maxLength={MAX_LENGTHS.message}
+                  minH="8rem"
+                  name="message"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  placeholder="How can I help you?"
+                />
+                {touched.message && errors.message ? (
+                  <Field.ErrorText>{errors.message}</Field.ErrorText>
+                ) : null}
+              </Field.Root>
+
+              <Field.Root position="absolute" style={{ left: '-9999px' }}>
+                <Field.Label srOnly>Reference</Field.Label>
+                <Input
+                  autoComplete="off"
+                  name="reference"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  tabIndex={-1}
+                  value={undefined}
+                />
+              </Field.Root>
+
+              <Button
+                colorPalette={profile.profileOptions[0].colorPalette}
+                loading={isSubmitting}
+                type="submit"
+                width="full"
+              >
+                Send Message
+              </Button>
+
+              {status?.success ? (
+                <Box color="green.600" fontWeight="medium">
+                  Thanks! Your message has been sent.
+                </Box>
               ) : null}
-            </Field.Root>
 
-            <Field.Root invalid={Boolean(touched.email && errors.email)}>
-              <Field.Label>Email</Field.Label>
-              <Input
-                maxLength={MAX_LENGTHS.email}
-                name="email"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                placeholder="you@example.com"
-                type="email"
-              />
-              {touched.email && errors.email ? (
-                <Field.ErrorText>{errors.email}</Field.ErrorText>
+              {status?.success === false ? (
+                <Box color="red.600" fontWeight="medium">
+                  Something went wrong. Please try again later.
+                </Box>
               ) : null}
-            </Field.Root>
-
-            <Field.Root invalid={Boolean(touched.message && errors.message)}>
-              <Field.Label>Message</Field.Label>
-              <Textarea
-                maxLength={MAX_LENGTHS.message}
-                minH="8rem"
-                name="message"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                placeholder="Tell me about your project"
-              />
-              {touched.message && errors.message ? (
-                <Field.ErrorText>{errors.message}</Field.ErrorText>
-              ) : null}
-            </Field.Root>
-
-            <Field.Root position="absolute" style={{ left: '-9999px' }}>
-              <Field.Label srOnly>Company</Field.Label>
-              <Input
-                autoComplete="off"
-                name="company"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                tabIndex={-1}
-                value={undefined}
-              />
-            </Field.Root>
-
-            <Button loading={isSubmitting} type="submit" width="full">
-              Send Message
-            </Button>
-
-            {status?.success ? (
-              <Box color="green.600" fontWeight="medium">
-                Thanks! Your message has been sent.
-              </Box>
-            ) : null}
-
-            {status?.success === false ? (
-              <Box color="red.600" fontWeight="medium">
-                Something went wrong. Please try again later.
-              </Box>
-            ) : null}
-          </Grid>
-        </Form>
+            </Grid>
+          </Form>
+        </RevealOnScroll>
       )}
     </Formik>
   </Grid>

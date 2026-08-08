@@ -88,9 +88,12 @@ export interface Profile {
   location: string;
   longBio: string;
   name: string;
+  nickname?: string;
   phone: string;
   photoUrl: string;
+  portfolioUrl?: string;
   profileOptions: Array<ProfileOptions>;
+  pronouns?: string;
   resumeUrl: string;
   shortBio: string;
   socials: Array<SocialLink>;
@@ -104,6 +107,7 @@ export interface PageSectionProps {
   bgLight?: string;
   children: ReactNode;
   gap?: string | number | Record<string, string | number>;
+  id?: string;
   maxW?: string | number | Record<string, string | number>;
   px?: string | number | Record<string, string | number>;
   py?: string | number | Record<string, string | number>;
