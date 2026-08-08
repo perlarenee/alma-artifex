@@ -4,6 +4,7 @@ import { useProfile } from '@/lib/components/ui/profile-provider';
 
 import { Credentials } from './components/credentials';
 import { CTASection } from './components/cta-section';
+import { Education } from './components/education';
 import { FormContact } from './components/form-contact';
 import { ImageProfile } from './components/image-profile';
 import { LinkTree } from './components/link-tree';
@@ -88,6 +89,7 @@ export default function Home() {
           name={profile.name}
           options={profile.profileOptions[0]}
         />
+        <Education profile={profile} />
       </PageSection>
 
       <PageSection bgDark="gray.800" bgLight="white" maxW="container.lg">

@@ -15,14 +15,14 @@ import type { Credential, ProfileOptions } from '@/data/types';
 
 interface CredentialsProps {
   colorPalette?: string;
-  credentials: Array<Credential>;
+  credentials?: Array<Credential>;
   name: string;
   options: ProfileOptions;
 }
 
 export const Credentials = ({
   name,
-  credentials,
+  credentials = [],
   colorPalette = 'purple',
 }: CredentialsProps) => {
   const formatDate = (value: string | null) => {
@@ -42,7 +42,7 @@ export const Credentials = ({
   return (
     <Grid gap={4} textAlign="center">
       <Heading fontWeight="extrabold" mb={2} size="lg">
-        Credentials & Education
+        Certificates and Credentials
       </Heading>
 
       {credentials.length > 0 ? (
