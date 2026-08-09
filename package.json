@@ -1,7 +1,8 @@
 {
-  "name": "vite-react-chakra-starter",
+  "name": "alma-artifex",
   "version": "0.1.0",
   "private": true,
+  "description": "A content-driven professional profile app built with React, TypeScript, Chakra UI, and Vite.",
   "author": "agustinusnathaniel",
   "type": "module",
   "engines": {

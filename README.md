@@ -1,19 +1,104 @@
 # Alma Artifex
 
-A profile for professional and career accomplishments, credentials and work history. Includes informal video responses to work-related questions, information about whether the professional is available for, or looking for, employment, and a way they can easily be reached. 
+Alma Artifex is a professional profile app designed to present a person's experience, credentials, work history, testimonials, video introductions, and contact options in a streamlined single-page experience.
 
-The purpose of this app to provide a non-social media avenue for skilled workers showcase their career accomplishments. 
+This repository is currently set up as a personal professional bio with placeholder data. The goal is to provide a clean, flexible, and visually strong showcase for a skilled professional while keeping the implementation simple enough to use as a template or starter for others.
 
-Initially this will be a profile for my own use, built in React and hosted on AWS and built with AWS services. This will be a public repo so anyone is welcome to copy and use it for their own needs. As I'm able, I'll extend it to a multi-user application.
+## What this app is
+
+Alma Artifex is meant to serve as:
+
+- a personal professional bio / portfolio page
+- a reusable profile template for other professionals
+- a starting point for a future multi-user platform that can support many profiles from a shared backend
+
+The current version uses static placeholder data and is optimized for a GitHub-hosted showcase and future cloud deployment.
+
+## What it includes
+
+The current UI includes:
+
+- a hero/profile section with name, title, location, pronouns, and contact links
+- a short bio and long bio area
+- a work history timeline
+- education and credentials sections
+- testimonials cards
+- embedded video content support
+- a contact form experience
+- reusable UI patterns for headings, sections, and reveal-on-scroll behavior
+
+## Why this exists
+
+This project was created as a more human-centered alternative to a social feed or generic resume. It gives a professional a place to present their work in a story-like format: who they are, what they have done, what they are known for, and how someone can reach them.
+
+The app is intentionally designed to be easy to customize with new profile data and eventually to evolve into a backend-driven system.
+
+## Tech stack
+
+The app is built with:
+
+- React 19
+- TypeScript
+- Vite
+- Chakra UI v3
+- TanStack Router
+- TanStack Query
+- Formik + Yup
+- Vitest
+- Biome + Ultracite
+- pnpm
+
+## Repository origin
+
+This project was branched from a Vite + React + Chakra UI starter template and then adapted into a profile-site application.
+
+In other words, the repo began as a general frontend starter and was transformed into a purpose-built professional profile experience.
+
+## How to run locally
+
+1. Install dependencies
+
+```bash
+pnpm install
+```
+
+2. Start the development server
+
+```bash
+pnpm dev
+```
+
+3. Build for production
+
+```bash
+pnpm build
+```
+
+## How to use it
+
+The current placeholder content lives in:
+
+- [src/data/profile.ts](src/data/profile.ts)
+- [src/data/types.ts](src/data/types.ts)
+
+To personalize the app, replace the sample profile data with your own name, title, bio, work history, testimonials, and contact details. Select a color scheme that suites your preferences.
+
+## Current state and roadmap
+
+### Current state
+
+- static placeholder data
+- fully functional UI experience
+- responsive sections and reusable components
+- contact form front-end experience
 
 ## About the name
-Alma is latin for "soul," "nourishing," or "kind." It's inspired by the term Alma Mater as used in the educational world.
 
-Artifex is latin for "artist," "craftsperson," or "maker." 
+Alma is Latin for “soul,” “nourishing,” or “kind,” inspired by the idea of Alma Mater.
 
-Together, the term denotes a connected, and very human, skilled professional. 
+Artifex is Latin for “artist,” “craftsperson,” or “maker.”
 
-## Stance on AI
-I see a lot of harm in the current unregulated nature of AI. Both in how it's harming our environment, infringing on creative rights and freedoms, and being used to do so much of our thinking for us that we are at risk of loosing capacity for creative and process oriented thought.
+Together, the name reflects a human-centered, craft-driven professional identity.
 
-Because of this, I personally have chosen to use AI as an advisor and consultant in my work, but not to rely on it as a primary driver. 
+
+

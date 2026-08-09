@@ -1,223 +1,84 @@
 # Contributing Guide
 
-This document outlines the contribution philosophy, conventions, and processes for this repository.
+This repository is both a working portfolio app and a reusable starter pattern for building profile-style applications.
 
-## Contribution Philosophy
+## Project Philosophy
 
-This is a starter template repository. Contributions should:
-- Maintain backward compatibility with the existing setup
-- Follow established patterns and conventions
-- Improve developer experience without adding unnecessary complexity
-- Keep the template minimal and focused
+Contributions should:
+
+- keep the app polished and easy to understand
+- preserve the current content-driven architecture
+- improve the profile experience without unnecessary complexity
+- make future cloud and multi-user evolution easier
 
 ## Branching Strategy
 
-- **`main`**: Production-ready code. All commits should be tested and working.
-- **Feature branches**: Use descriptive names like `feat/add-dark-mode-toggle` or `fix/router-config`
-- **No long-lived branches**: Merge or delete feature branches promptly
+- `main`: stable, review-ready work
+- feature branches: use descriptive names such as `feat/contact-api` or `fix/profile-section-spacing`
+- keep branches focused and merge them promptly
+
+## Development Workflow
+
+1. install dependencies with `pnpm install`
+2. start the app locally with `pnpm dev`
+3. make focused changes
+4. run the project checks before submitting work
 
 ## Commit Conventions
 
-This project uses [Conventional Commits](https://www.conventionalcommits.org/) enforced by Commitlint.
+This project uses Conventional Commits.
 
-### Commit Message Format
-
-```
-<type>(<scope>): <subject>
-
-<body>
-
-<footer>
-```
-
-### Types
-
-- `feat`: New feature
-- `fix`: Bug fix
-- `docs`: Documentation changes
-- `style`: Code style changes (formatting, no logic change)
-- `refactor`: Code refactoring
-- `test`: Adding or updating tests
-- `chore`: Maintenance tasks (dependencies, config)
-- `perf`: Performance improvements
-
-### Scope
-
-Use kebab-case for scope (enforced by Commitlint). Examples:
-- `router`: TanStack Router changes
-- `ui`: UI component changes
-- `theme`: Theme/styling changes
-- `config`: Configuration file changes
-
-### Examples
+Examples:
 
 ```bash
-feat(router): add nested route support
-fix(ui): correct button loading state
-docs(readme): update installation instructions
-chore(deps): update react to 19.2.0
+feat(ui): add reusable reveal-on-scroll helper
+fix(contact): improve form validation behavior
+docs(readme): refresh GitHub project overview
 ```
 
 ## Code Style and Formatting
 
-### Biome Configuration
+This repository uses Biome and Ultracite.
 
-This project uses [Biome](https://biomejs.dev/) for linting and formatting. Configuration is in `biome.json`.
-
-### Key Rules
-
-1. **File Naming**: kebab-case for all files (enforced)
-2. **No Default Exports**: Use named exports except for:
-   - Route files (`src/routes/**/*.tsx`)
-   - Page components (`src/lib/pages/**/index.tsx`)
-   - Entry files (`src/*.ts`, `*.ts` config files)
-3. **Import Organization**: Automatic import sorting with groups:
-   - External packages (URL, Node, npm packages)
-   - Path aliases (`@/*`)
-   - Relative paths
-4. **Quote Style**: Single quotes for JavaScript/TypeScript
-5. **Indentation**: Spaces (not tabs)
-
-### Running Formatting
+Before submitting changes, make sure formatting and checks are clean.
 
 ```bash
-# Check for issues
-pnpm biome:check
-
-# Auto-fix issues
-pnpm biome:fix
+pnpm check:prepush
 ```
 
-### Pre-commit Hooks
+## Content and Data Guidelines
 
-Lint-staged runs Biome checks on staged files before commits. Configured in `.lintstagedrc.json`.
+The app is currently driven by placeholder profile data in [src/data/profile.ts](src/data/profile.ts).
 
-## TypeScript Guidelines
+When making changes:
 
-### Type Safety
+- keep the profile data structure consistent with [src/data/types.ts](src/data/types.ts)
+- avoid hard-coding personal data into components unless it is intentionally meant to be sample content
+- preserve the ability to swap static placeholder content for real backend content later
 
-- Use strict TypeScript settings (enforced in `tsconfig.json`)
-- Avoid `any` types
-- Use proper type inference where possible
-- Export types/interfaces for reusable components
+## Component and UI Guidelines
 
-### Path Aliases
-
-Always use path aliases (`@/*`) instead of relative imports for `src/` files:
-
-```tsx
-// ✅ Good
-import { Button } from '@/lib/components/ui/button';
-
-// ❌ Bad
-import { Button } from '../../../lib/components/ui/button';
-```
+- prefer reusable UI components over one-off page logic
+- keep sections composable and easy to rearrange
+- preserve responsive behavior across screen sizes
+- keep the visual language consistent with the current theme
 
 ## Testing Expectations
 
-### Test Coverage
+- add or update tests for logic-heavy utility changes
+- keep tests focused and meaningful
+- use the existing Vitest setup
 
-- Utility functions (`src/lib/utils/`) should have tests
-- Aim for meaningful test coverage, not 100% coverage for its own sake
-- Tests use Vitest with coverage reporting
+## Pull Request Checklist
 
-### Running Tests
+Before opening a PR, confirm that:
 
-```bash
-# Run all tests
-pnpm test
+- the app still builds locally
+- tests are passing
+- formatting and checks pass
+- documentation reflects meaningful changes
+- the change fits the overall profile-app direction of the repository
 
-# Watch mode
-pnpm test:ui
-
-# Coverage report
-pnpm test:coverage
-```
-
-### Test File Location
-
-- Co-locate test files with source: `sample.test.ts` next to `sample.ts`
-- Or use `__tests__` directories for complex test suites
-
-## Component Patterns
-
-### Component Structure
-
-1. **Props Interface**: Define props interface/type at top
-2. **Component Definition**: Use function declarations or `forwardRef` for DOM components
-3. **Exports**: Named exports for components, types exported separately if needed
-
-```tsx
-interface ButtonProps extends ChakraButtonProps {
-  loading?: boolean;
-}
-
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  function Button(props, ref) {
-    // implementation
-  }
-);
-```
-
-### Chakra UI Components
-
-- Use Chakra UI primitives from `@chakra-ui/react`
-- Extend Chakra props when creating wrapper components
-- Use theme tokens for spacing, colors, etc.
-
-### Client Components
-
-Mark components that use browser APIs with `'use client'` directive:
-
-```tsx
-'use client';
-
-export function ColorModeProvider(props: ThemeProviderProps) {
-  // uses browser APIs
-}
-```
-
-## Route Development
-
-### Adding Routes
-
-1. Create route file in `src/routes/`
-2. Use `createFileRoute` from `@tanstack/react-router`
-3. Route tree auto-generates (do not edit `routeTree.gen.ts`)
-
-### Route File Pattern
-
-```tsx
-import { createFileRoute } from '@tanstack/react-router';
-import { PageComponent } from '@/lib/pages/page-name';
-
-export const Route = createFileRoute('/path')({
-  component: PageComponent,
-});
-```
-
-## Review and PR Process
-
-### Before Submitting
-
-1. Run all checks: `pnpm check:turbo`
-2. Ensure tests pass: `pnpm test`
-3. Verify build succeeds: `pnpm build`
-4. Check for unused code: `pnpm knip`
-
-### Pull Request Guidelines
-
-1. **Clear Description**: Explain what and why, not just how
-2. **Small Changes**: Prefer multiple small PRs over one large PR
-3. **Update Documentation**: Update relevant docs if behavior changes
-4. **No Generated Files**: Do not commit generated files unless necessary:
-   - `routeTree.gen.ts` (auto-generated, but tracked for type safety)
-   - Build artifacts
-   - `node_modules/`
-
-### Review Checklist
-
-Reviewers should verify:
 - [ ] Code follows style guidelines
 - [ ] Tests pass and coverage is adequate
 - [ ] TypeScript compiles without errors
