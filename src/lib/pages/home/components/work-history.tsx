@@ -2,6 +2,7 @@ import {
   Accordion,
   Box,
   Card,
+  Em,
   Grid,
   Stack,
   Text,
@@ -57,7 +58,9 @@ export const WorkHistory = ({ options, workHistory }: WorkHistoryProps) => {
             <Box flex="1" textAlign="left">
               <Text fontWeight="bold">{entry.company}</Text>
               <Text color="fg.muted" fontSize="sm">
-                {entry.title} • {dates}
+                <Em>
+                  {entry.title} • {dates}
+                </Em>
               </Text>
             </Box>
             <Accordion.ItemIndicator />
@@ -67,17 +70,14 @@ export const WorkHistory = ({ options, workHistory }: WorkHistoryProps) => {
               borderRadius="0"
               borderTop="1px solid #ccc"
               gap="2"
+              mb="4"
               mt="4"
               padding="6"
               textAlign="left"
             >
-              <Text fontWeight="bold" textDecoration="underline">
-                Responsibilities:
-              </Text>
-              <Text>{entry.responsibilities}</Text>
-              <Text fontWeight="bold" textDecoration="underline">
-                Accomplishments:
-              </Text>
+              <Text fontWeight="bold">Responsibilities:</Text>
+              <Text mb="2">{entry.responsibilities}</Text>
+              <Text fontWeight="bold">Accomplishments:</Text>
               <Text> {entry.accomplishments}</Text>
             </Stack>
           </Accordion.ItemContent>
@@ -95,17 +95,15 @@ export const WorkHistory = ({ options, workHistory }: WorkHistoryProps) => {
               <Card.Root maxW="xl" ml="auto" textAlign="right" textStyle="sm">
                 <Card.Body>
                   <Card.Title>{entry.company}</Card.Title>
-                  <Card.Description mb="2">
-                    {entry.title} • {dates}
+                  <Card.Description mb="4">
+                    <Em>
+                      {entry.title} • {dates}
+                    </Em>
                   </Card.Description>
                   <Stack gap="2">
-                    <Text fontWeight="bold" textDecoration="underline">
-                      Responsibilities:
-                    </Text>
-                    <Text>{entry.responsibilities}</Text>
-                    <Text fontWeight="bold" textDecoration="underline">
-                      Accomplishments:
-                    </Text>
+                    <Text fontWeight="bold">Responsibilities:</Text>
+                    <Text mb="2">{entry.responsibilities}</Text>
+                    <Text fontWeight="bold">Accomplishments:</Text>
                     <Text> {entry.accomplishments}</Text>
                   </Stack>
                 </Card.Body>
@@ -124,17 +122,15 @@ export const WorkHistory = ({ options, workHistory }: WorkHistoryProps) => {
               <Card.Root maxW="xl" textAlign="left" textStyle="sm">
                 <Card.Body>
                   <Card.Title>{entry.company}</Card.Title>
-                  <Card.Description mb="2">
-                    {entry.title} • {dates}
+                  <Card.Description mb="4">
+                    <Em>
+                      {entry.title} • {dates}
+                    </Em>
                   </Card.Description>
                   <Stack gap="2">
-                    <Text fontWeight="bold" textDecoration="underline">
-                      Responsibilities:
-                    </Text>
-                    <Text>{entry.responsibilities}</Text>
-                    <Text fontWeight="bold" textDecoration="underline">
-                      Accomplishments:
-                    </Text>
+                    <Text fontWeight="bold">Responsibilities:</Text>
+                    <Text mb="2">{entry.responsibilities}</Text>
+                    <Text fontWeight="bold">Accomplishments:</Text>
                     <Text> {entry.accomplishments}</Text>
                   </Stack>
                 </Card.Body>

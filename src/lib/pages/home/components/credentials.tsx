@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Card,
+  Flex,
   Grid,
   Heading,
   Image,
@@ -48,80 +49,95 @@ export const Credentials = ({
         </Heading>
       </RevealOnScroll>
 
-      {credentials.length > 0 ? (
-        <Grid
-          gap={4}
-          mx="auto"
-          templateColumns={{
-            base: '1fr',
-            lg: 'repeat(2, 1fr)',
-            md: 'repeat(2, 1fr)',
-          }}
-        >
-          {credentials.map((credential) => (
-            <>
-              <RevealOnScroll>
-                <Card.Root
-                  alignItems="flex-start"
-                  borderRadius="md"
-                  borderWidth="1px"
-                  boxShadow="md"
-                  flex="1"
-                  flexDirection="row"
-                  gap={4}
-                  key={credential.name}
-                  maxW="xl"
-                  overflow="hidden"
-                  p={6}
-                  textAlign="left"
-                  textStyle="sm"
-                >
-                  {credential.img ? (
-                    <Box m="0" maxW="1/3" p="0">
-                      <Image
-                        alt={credential.name}
-                        objectFit="fill"
-                        src={credential.img}
-                      />
-                    </Box>
-                  ) : null}
-                  <Box m="0" maxW="2/3" p="0">
-                    <Card.Body gap="2">
-                      <Card.Title>{credential.name}</Card.Title>
-                      <Card.Description>
-                        <Text>
-                          <Span fontWeight="bold">Type:</Span> {credential.type}
-                        </Text>
-                        {credential.validUntil ? (
-                          <Text>
-                            <Span fontWeight="bold">Valid Until:</Span>{' '}
-                            {formatDate(credential.validUntil)}
-                          </Text>
-                        ) : null}
-                      </Card.Description>
-                    </Card.Body>
-                    <Card.Footer gap="2">
-                      {credential.link ? (
-                        <Button asChild colorPalette={colorPalette} size="sm">
-                          <Link
-                            href={credential.link}
-                            rel="noopener noreferrer"
-                            target="_blank"
-                          >
-                            <FaCertificate /> View Credential
-                          </Link>
-                        </Button>
-                      ) : null}
-                    </Card.Footer>
+      <RevealOnScroll>
+        {credentials.length > 0 ? (
+          <Flex
+            alignItems="stretch"
+            columnGap="2%"
+            direction={{ base: 'column', md: 'row' }}
+            flexWrap="wrap"
+            justifyContent="center"
+            rowGap={6}
+            textAlign="center"
+          >
+            {credentials.map((credential) => (
+              <Card.Root
+                alignItems="flex-start"
+                borderRadius="md"
+                borderWidth="1px"
+                boxShadow="md"
+                flexDirection="row"
+                gap={6}
+                justifyContent="space-between"
+                key={credential.name}
+                overflow="hidden"
+                p={6}
+                textAlign="left"
+                textStyle="sm"
+                width={{ base: '100%', lg: '31%', md: '48%' }}
+              >
+                {credential.img ? (
+                  <Box m="0" p="0" width="33%">
+                    <Image
+                      alt={credential.name}
+                      objectFit="fill"
+                      src={credential.img}
+                    />
                   </Box>
-                </Card.Root>
-              </RevealOnScroll>
-            </>
-          ))}
-        </Grid>
-      ) : (
-        <Text color="fg.muted">{name} has no credentials listed yet.</Text>
-      )}
+                ) : null}
+                <Box
+                  display="flex"
+                  flexDirection="column"
+                  height="100%"
+                  justifyContent="space-between"
+                  m="0"
+                  p="0"
+                  width="66%"
+                >
+                  <Card.Body
+                    alignItems="flex-start"
+                    gap="2"
+                    height="100%"
+                    justifyContent="space-between"
+                    p="0"
+                  >
+                    <Card.Title textStyle="sm">{credential.name}</Card.Title>
+                    <Text fontSize="0.8rem">
+                      <Span fontWeight="bold">Type:</Span> {credential.type}
+                    </Text>
+                    {credential.validUntil ? (
+                      <Text fontSize="0.8rem">
+                        <Span fontWeight="bold">Valid Until:</Span>{' '}
+                        {formatDate(credential.validUntil)}
+                      </Text>
+                    ) : null}
+
+                    {credential.link ? (
+                      <Button
+                        asChild
+                        colorPalette={colorPalette}
+                        fontSize="0.8rem"
+                        mt="4"
+                        size="sm"
+                      >
+                        <Link
+                          href={credential.link}
+                          rel="noopener noreferrer"
+                          target="_blank"
+                        >
+                          <FaCertificate /> View Credential
+                        </Link>
+                      </Button>
+                    ) : null}
+                  </Card.Body>
+                </Box>
+              </Card.Root>
+            ))}
+          </Flex>
+        ) : (
+          <Text color="fg.muted">{name} has no credentials listed yet.</Text>
+        )}
+      </RevealOnScroll>
     </Grid>
   );
 };
