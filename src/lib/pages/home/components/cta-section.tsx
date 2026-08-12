@@ -24,8 +24,13 @@ export const CTASection = ({
       justifyContent="center"
       marginY={4}
     >
-      <Stack direction={{ base: 'column', md: 'row' }} gap={2}>
-        <RevealOnScroll delay="0.4s">
+      <RevealOnScroll delay="0.4s">
+        <Stack
+          direction={{ base: 'column', md: 'row' }}
+          gap={4}
+          justifyContent="center"
+          mb={2}
+        >
           <Button
             asChild
             colorPalette={colorPalette}
@@ -58,8 +63,8 @@ export const CTASection = ({
               </Link>
             </Button>
           ) : null}
-        </RevealOnScroll>
-      </Stack>
+        </Stack>
+      </RevealOnScroll>
       {resumeUrl ? (
         <RevealOnScroll delay="0.5s">
           <Button asChild colorPalette={colorPalette} size="sm" variant="solid">

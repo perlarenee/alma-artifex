@@ -1,11 +1,13 @@
-import { Box, Grid, Text } from '@chakra-ui/react';
+import { Box, Collapsible, Grid, Text } from '@chakra-ui/react';
 import {
   type KeyboardEvent,
+  type ReactNode,
   useCallback,
   useEffect,
   useRef,
   useState,
 } from 'react';
+import { LuChevronRight } from 'react-icons/lu';
 
 import type { VideoOptions } from '@/data/types';
 import { RevealOnScroll } from '@/lib/components/ui/reveal-on-scroll';
@@ -48,6 +50,102 @@ declare global {
 interface VideoSectionProps {
   videoOptions: Array<VideoOptions>;
 }
+
+const renderTranscriptNode = (node: ChildNode, key: string): ReactNode => {
+  if (node.nodeType === Node.TEXT_NODE) {
+    return node.textContent;
+  }
+
+  if (node.nodeType !== Node.ELEMENT_NODE) {
+    return null;
+  }
+
+  const element = node as HTMLElement;
+  const children = Array.from(element.childNodes).map((child, index) =>
+    renderTranscriptNode(child, `${key}-${index}`)
+  );
+
+  const tagName = element.tagName.toLowerCase();
+
+  if (tagName === 'p') {
+    return (
+      <Text as="p" key={key} mb={3}>
+        {children}
+      </Text>
+    );
+  }
+
+  if (tagName === 'br') {
+    return <br key={key} />;
+  }
+
+  if (tagName === 'strong') {
+    return (
+      <Text as="strong" fontWeight="bold" key={key}>
+        {children}
+      </Text>
+    );
+  }
+
+  if (tagName === 'em') {
+    return (
+      <Text as="em" fontStyle="italic" key={key}>
+        {children}
+      </Text>
+    );
+  }
+
+  if (tagName === 'ul') {
+    return (
+      <Box as="ul" key={key} ml={6}>
+        {children}
+      </Box>
+    );
+  }
+
+  if (tagName === 'ol') {
+    return (
+      <Box as="ol" key={key} ml={6}>
+        {children}
+      </Box>
+    );
+  }
+
+  if (tagName === 'li') {
+    return (
+      <Box as="li" key={key} mb={2}>
+        {children}
+      </Box>
+    );
+  }
+
+  if (tagName === 'a') {
+    return (
+      <a
+        href={element.getAttribute('href') ?? undefined}
+        key={key}
+        rel="noreferrer"
+        style={{ color: 'var(--chakra-colors-blue-500)' }}
+        target="_blank"
+      >
+        {children}
+      </a>
+    );
+  }
+
+  return children;
+};
+
+const renderTranscriptHtml = (html: string): ReactNode => {
+  if (typeof window === 'undefined') {
+    return null;
+  }
+
+  const doc = new DOMParser().parseFromString(html, 'text/html');
+  return Array.from(doc.body.childNodes).map((node, index) =>
+    renderTranscriptNode(node, `transcript-${index}`)
+  );
+};
 
 export const VideoSection = ({ videoOptions }: VideoSectionProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -362,6 +460,41 @@ export const VideoSection = ({ videoOptions }: VideoSectionProps) => {
       ) : null}
 
       <RevealOnScroll>{videoContent}</RevealOnScroll>
+
+      {videoOption?.transcript ? (
+        <RevealOnScroll>
+          <Collapsible.Root defaultOpen={false}>
+            <Collapsible.Trigger
+              alignItems="center"
+              display="flex"
+              gap="2"
+              justifyContent="center"
+              paddingY="3"
+            >
+              <Collapsible.Indicator
+                _open={{ transform: 'rotate(90deg)' }}
+                transition="transform 0.2s"
+              >
+                <LuChevronRight />
+              </Collapsible.Indicator>
+              <Text as="span" fontWeight="medium">
+                Video Transcript
+              </Text>
+            </Collapsible.Trigger>
+            <Collapsible.Content>
+              <Box
+                borderRadius="md"
+                borderWidth="1px"
+                fontSize="sm"
+                p={4}
+                textAlign="left"
+              >
+                {renderTranscriptHtml(videoOption.transcript)}
+              </Box>
+            </Collapsible.Content>
+          </Collapsible.Root>
+        </RevealOnScroll>
+      ) : null}
     </Grid>
   );
 };

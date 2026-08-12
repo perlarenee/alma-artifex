@@ -31,10 +31,13 @@ export const Credentials = ({
     if (!value) {
       return 'Current';
     }
-    const date = new Date(value);
+
+    const normalizedValue = value.includes('T') ? value : `${value}T00:00:00`;
+    const date = new Date(normalizedValue);
     if (Number.isNaN(date.getTime())) {
       return value;
     }
+
     return new Intl.DateTimeFormat('en', {
       month: 'short',
       year: 'numeric',

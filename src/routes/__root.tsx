@@ -8,7 +8,7 @@ import { Layout } from '@/lib/layout';
 const description = 'Alma Artifex';
 const url = 'https://weblocomotive.com';
 const ogImgUrl =
-  'https://og.sznm.dev/api/generate?heading=vite-react-chakra-starter&text=React+vite+template+with+Chakra+UI+and+TypeScript+setup.&template=color';
+  'https://og.sznm.dev/api/generate?heading=alma-artifex&text=Professional+profile+and+resume+application+made+with+React,+Vite,+Typescript,+Chakra,+and+Formik.&template=color';
 
 export const Route = createRootRoute({
   component: () => (

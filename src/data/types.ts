@@ -15,7 +15,15 @@ export interface SocialLink {
   url: string;
 }
 
-export type CredentialType = 'certification' | 'degree' | 'license' | 'award';
+export type CredentialType =
+  | 'Specialization Certificate'
+  | 'Professional Certificate'
+  | 'Certification'
+  | 'Degree'
+  | 'License'
+  | 'Award'
+  | 'Completion Certificate'
+  | 'Other';
 
 export interface Credential {
   img: string;
@@ -34,13 +42,27 @@ export interface EducationEntry {
   institution: string;
 }
 
+export interface WorkHistoryBlockParagraph {
+  text: string;
+  type: 'paragraph';
+}
+
+export interface WorkHistoryBlockList {
+  items: Array<string>;
+  type: 'list';
+}
+
+export type WorkHistoryContentBlock =
+  | WorkHistoryBlockParagraph
+  | WorkHistoryBlockList;
+
 export interface WorkHistoryEntry {
-  accomplishments: string; // markdown
+  accomplishments: string | Array<WorkHistoryContentBlock>; // markdown or structured blocks
   company: string;
   dateEnd: string | null; // null = current
   dateStart: string; // ISO date, e.g. "2022-01-01"
   id: string;
-  responsibilities: string; // markdown
+  responsibilities: string | Array<WorkHistoryContentBlock>; // markdown or structured blocks
   title: string;
 }
 
@@ -56,6 +78,7 @@ export interface Testimonials {
 }
 
 export type ColorPalette =
+  | 'cyan'
   | 'teal'
   | 'blue'
   | 'green'
@@ -74,6 +97,7 @@ export interface ProfileOptions {
 }
 
 export interface VideoOptions {
+  transcript: string;
   videoID: string;
   videoQuestion?: string;
   videoSource: 'yt' | 'vim';
@@ -86,9 +110,9 @@ export interface Profile {
   email: string;
   jobTitle: string;
   location: string;
-  longBio: string;
+  longBio: string; // supports basic HTML such as <p> and <strong>
   name: string;
-  nickname?: string;
+  nickname: string;
   phone: string;
   photoUrl: string;
   portfolioUrl?: string;

@@ -10,3 +10,5 @@ interface ViteTypeOptions {
 }
 
 interface ImportMetaEnv extends ImportMetaEnvAugmented {}
+
+declare module 'react-google-recaptcha';

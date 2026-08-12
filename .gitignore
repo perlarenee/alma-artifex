@@ -23,3 +23,12 @@ coverage/
 .eslintcache
 
 .tanstack
+
+# ENV
+.env
+.env.*
+!.env.example
+!.env.ts
+
+#PROFILE
+src/data/profile.json

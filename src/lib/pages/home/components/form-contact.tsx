@@ -1,5 +1,6 @@
 import { Box, Button, Field, Grid, Input, Textarea } from '@chakra-ui/react';
 import { Form, Formik, type FormikHelpers } from 'formik';
+import ReCAPTCHA from 'react-google-recaptcha';
 import { object, string, ValidationError } from 'yup';
 
 import type { Profile } from '@/data/types';
@@ -16,6 +17,9 @@ interface ContactFormValues {
   name: string;
   reference: string;
 }
+
+const contactApiUrl = import.meta.env.VITE_CONTACT_API_URL ?? '/api/contact';
+const recaptchaSiteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY ?? '';
 
 const MAX_LENGTHS = {
   email: 254,
@@ -106,7 +110,14 @@ const submitContactForm = async (
   helpers: FormikHelpers<ContactFormValues>
 ) => {
   const sanitizedValues = sanitizeContactFormValues(values);
+  const recaptchaToken = (
+    document.querySelector(
+      '[name="g-recaptcha-response"]'
+    ) as HTMLInputElement | null
+  )?.value;
+
   const payload = {
+    captchaToken: recaptchaToken ?? '',
     email: sanitizedValues.email,
     message: sanitizedValues.message,
     name: sanitizedValues.name,
@@ -119,7 +130,7 @@ const submitContactForm = async (
   const timeoutId = window.setTimeout(() => controller.abort(), 10_000);
 
   try {
-    const response = await fetch('/api/contact', {
+    const response = await fetch(contactApiUrl, {
       body: JSON.stringify(payload),
       headers: {
         'Content-Type': 'application/json',
@@ -218,6 +229,12 @@ export const FormContact = ({ profile }: FormContactProps) => (
                   value={undefined}
                 />
               </Field.Root>
+
+              {recaptchaSiteKey ? (
+                <Box>
+                  <ReCAPTCHA sitekey={recaptchaSiteKey} />
+                </Box>
+              ) : null}
 
               <Button
                 colorPalette={profile.profileOptions[0].colorPalette}

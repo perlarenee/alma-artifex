@@ -9,7 +9,7 @@ import {
   FaYoutube,
 } from 'react-icons/fa6';
 
-import type { CredentialType, SocialPlatform } from '../../data/types';
+import type { SocialPlatform } from '../../data/types';
 
 export const queryClient = new QueryClient();
 
@@ -29,13 +29,6 @@ export const SOCIAL_LABELS: Record<SocialPlatform, string> = {
   twitter: 'X / Twitter',
   website: 'Website',
   youtube: 'YouTube',
-};
-
-export const CREDENTIAL_LABELS: Record<CredentialType, string> = {
-  award: 'Award',
-  certification: 'Certification',
-  degree: 'Degree',
-  license: 'License',
 };
 
 export const COPYRIGHT_TEXT = '© 2026 Alma Artifex. All rights reserved.';

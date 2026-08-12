@@ -1,0 +1,246 @@
+{
+  "credentials": [
+    {
+      "img": "/assets/placeholder-certification.png",
+      "link": "https://example.com/certification",
+      "name": "Example Certification",
+      "type": "Certification",
+      "validUntil": "2030-12-31"
+    },
+    {
+      "img": "/assets/placeholder-certificate.png",
+      "link": "https://example.com/course",
+      "name": "Professional Development Certificate",
+      "type": "Professional Certificate"
+    },
+    {
+      "img": "/assets/placeholder-specialization.png",
+      "link": "https://example.com/specialization",
+      "name": "Specialization Certificate",
+      "type": "Specialization Certificate"
+    }
+  ],
+  "education": [
+    {
+      "dateEnd": null,
+      "dateStart": "2024-08-01",
+      "degree": "Bachelor of Arts (Example)",
+      "fieldOfStudy": "General Studies",
+      "id": "1",
+      "institution": "Example University"
+    },
+    {
+      "dateEnd": null,
+      "dateStart": "2018-08-01",
+      "degree": "Self Guided Learning",
+      "fieldOfStudy": "Technology & Design",
+      "id": "2",
+      "institution": "Independent Study"
+    }
+  ],
+  "email": "hello@example.com",
+  "jobTitle": "Web Developer | Digital Experience Specialist",
+  "location": "City, State, Country",
+  "longBio": "<p>I am a digital developer focused on building thoughtful, user-centered web experiences and reliable online systems.</p><p>My work spans design-minded front-end development, practical problem solving, and collaborative implementation across a range of projects and teams.</p><p>I enjoy helping businesses and organizations build clean, effective digital products that are easy to maintain and easy to trust.</p>",
+  "name": "Your Name",
+  "nickname": "You",
+  "phone": "+1 (555) 123-4567",
+  "photoUrl": "/assets/placeholder-profile.jpg",
+  "portfolioUrl": "https://example.com",
+  "profileOptions": [
+    {
+      "colorPalette": "cyan",
+      "lfwPosition": "bottom",
+      "lfwText": "#OPEN TO WORK",
+      "lookingForWork": true,
+      "textOffset": "25%"
+    }
+  ],
+  "resumeUrl": "/assets/example-resume.pdf",
+  "shortBio": "I build thoughtful digital experiences and reliable solutions.",
+  "socials": [
+    { "platform": "linkedin", "url": "https://linkedin.com/in/example" },
+    { "platform": "github", "url": "https://github.com/example" }
+  ],
+  "testimonials": [
+    {
+      "avatarUrl": "/assets/placeholder-avatar-1.jpg",
+      "company": "Example Studio",
+      "id": "1",
+      "name": "Client A",
+      "quote": "Working with this developer was straightforward, collaborative, and thoughtful. They listened carefully, translated ideas into practical solutions, and delivered work that felt polished and dependable.",
+      "role": "Client",
+      "title": "Founder",
+      "year": "2024"
+    },
+    {
+      "avatarUrl": "/assets/placeholder-avatar-2.jpg",
+      "company": "Example Company",
+      "id": "2",
+      "name": "Team Lead",
+      "quote": "They brought a calm, solution-focused approach to every challenge. Their communication was clear, their work was well-structured, and they consistently contributed value from concept to launch.",
+      "role": "Manager",
+      "title": "Project Lead",
+      "year": "2023"
+    },
+    {
+      "avatarUrl": "/assets/placeholder-avatar-3.jpg",
+      "company": "Sample Organization",
+      "id": "3",
+      "name": "Colleague",
+      "quote": "The work was consistently thoughtful and reliable. They understand both the technical details and the broader user experience, which made them a strong contributor to the team.",
+      "role": "Colleague",
+      "title": "Design & Development Partner",
+      "year": "2022"
+    }
+  ],
+  "videoOptions": [
+    {
+      "transcript": "<p>I enjoy building digital experiences that are both effective and easy to use.</p><p>My work often sits at the intersection of front-end development, systems thinking, and practical problem solving.</p><p>I'm especially interested in thoughtful solutions, clear communication, and creating tools that help people work with confidence.</p><p>I value a collaborative process and look for opportunities to build work that is useful, scalable, and easy to maintain.</p>",
+      "videoID": "0000000000",
+      "videoQuestion": "What kind of work do you enjoy most, and what do you bring to a team?",
+      "videoSource": "vim",
+      "videoThumb": "/assets/placeholder-video-thumb.jpg"
+    }
+  ],
+  "workHistory": [
+    {
+      "accomplishments": [
+        {
+          "text": "Supported a range of digital projects by building reliable front-end experiences and connecting them to practical business workflows.",
+          "type": "paragraph"
+        }
+      ],
+      "company": "Independent Consultant",
+      "dateEnd": null,
+      "dateStart": "2022-01-01",
+      "id": "1",
+      "responsibilities": [
+        {
+          "text": "Worked with clients and teams on a flexible mix of website builds, front-end improvements, and implementation support across multiple digital projects.",
+          "type": "paragraph"
+        },
+        {
+          "items": [
+            "Built and maintained responsive web interfaces for a variety of client needs",
+            "Collaborated on design implementation, content updates, and technical troubleshooting",
+            "Improved site performance, accessibility, and maintainability across projects",
+            "Supported deployment, QA, and issue resolution during launch and maintenance cycles"
+          ],
+          "type": "list"
+        }
+      ],
+      "title": "Web Developer & Consultant"
+    },
+    {
+      "accomplishments": [
+        {
+          "text": "Contributed to a multi-team digital environment with a focus on implementation quality, usability, and data-driven updates.",
+          "type": "paragraph"
+        }
+      ],
+      "company": "Example Company",
+      "dateEnd": "2021-12-31",
+      "dateStart": "2019-01-01",
+      "id": "2",
+      "responsibilities": [
+        {
+          "text": "Supported the execution of web projects and integrations while helping teams move from concept to production with clear communication and practical implementation.",
+          "type": "paragraph"
+        },
+        {
+          "items": [
+            "Developed and maintained front-end features for internal and external web properties",
+            "Coordinated with design, marketing, and technical teams on launches and updates",
+            "Improved tracking and analytics integrations to support business reporting",
+            "Helped maintain consistent implementation standards across digital assets"
+          ],
+          "type": "list"
+        }
+      ],
+      "title": "Web Developer"
+    },
+    {
+      "accomplishments": [
+        {
+          "text": "Delivered client-facing work across multiple platforms with a focus on user experience, reliability, and clear communication.",
+          "type": "paragraph"
+        }
+      ],
+      "company": "Studio Example",
+      "dateEnd": "2018-12-31",
+      "dateStart": "2016-01-01",
+      "id": "3",
+      "responsibilities": [
+        {
+          "text": "Worked on a range of web projects for small business and organizational clients, covering both design implementation and functional updates.",
+          "type": "paragraph"
+        },
+        {
+          "items": [
+            "Built and customized websites for client and small-business needs",
+            "Implemented UX improvements and content-driven updates",
+            "Supported lead generation and conversion-oriented design improvements"
+          ],
+          "type": "list"
+        }
+      ],
+      "title": "Front-End Developer"
+    },
+    {
+      "accomplishments": [
+        {
+          "text": "Built reusable patterns and practical development workflows that improved consistency and efficiency across projects.",
+          "type": "paragraph"
+        }
+      ],
+      "company": "Creative Agency",
+      "dateEnd": "2015-12-31",
+      "dateStart": "2013-01-01",
+      "id": "4",
+      "responsibilities": [
+        {
+          "text": "Worked in a collaborative agency environment supporting creative teams with technical execution and digital implementation.",
+          "type": "paragraph"
+        },
+        {
+          "items": [
+            "Built reusable interface patterns and front-end components",
+            "Maintained performance and accessibility considerations across client work",
+            "Supported cross-functional teams with technical problem solving",
+            "Helped implement content updates and custom functionality"
+          ],
+          "type": "list"
+        }
+      ],
+      "title": "Developer & Technical Support"
+    },
+    {
+      "accomplishments": [
+        {
+          "text": "Started with hands-on learning and practical project work, building a foundation in web technologies and content-driven digital experiences.",
+          "type": "paragraph"
+        }
+      ],
+      "company": "Freelance & Early Client Work",
+      "dateEnd": "2012-12-31",
+      "dateStart": "2010-01-01",
+      "id": "5",
+      "responsibilities": [
+        {
+          "text": "Built early experience through freelance projects, small business sites, and self-directed technical learning across multiple platforms.",
+          "type": "paragraph"
+        },
+        {
+          "items": [
+            "Developed websites and custom front-end experiences for small clients",
+            "Explored multiple content management and publishing platforms",
+            "Applied SEO and UX thinking to improve site quality and usability"
+          ],
+          "type": "list"
+        }
+      ],
+      "title": "Web Developer"
+    }
+  ]
+}

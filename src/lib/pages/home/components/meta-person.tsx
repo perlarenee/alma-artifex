@@ -17,19 +17,31 @@ export const MetaPerson = ({
   location,
   nickname,
   pronouns,
-}: ShortBioProps) => (
-  <Grid gap={2} textAlign="center">
-    <SectionHeader>{name}</SectionHeader>
-    {pronouns ? (
-      <Text color="fg.muted" textStyle="sm">
-        <Em>{nickname ? `(${nickname} - ${pronouns})` : `(${pronouns})`}</Em>
-      </Text>
-    ) : null}
-    <RevealOnScroll>
-      <Text textStyle="sm">{jobTitle}</Text>
-    </RevealOnScroll>
-    <RevealOnScroll delay="0.2s">
-      <Text textStyle="sm">{location}</Text>
-    </RevealOnScroll>
-  </Grid>
-);
+}: ShortBioProps) => {
+  let displayName: string | null = null;
+
+  if (nickname && pronouns) {
+    displayName = `(${nickname} — ${pronouns})`;
+  } else if (nickname) {
+    displayName = `(${nickname})`;
+  } else if (pronouns) {
+    displayName = `(${pronouns})`;
+  }
+
+  return (
+    <Grid gap={2} textAlign="center">
+      <SectionHeader>{name}</SectionHeader>
+      {displayName ? (
+        <Text color="fg.muted" textStyle="sm">
+          <Em>{displayName}</Em>
+        </Text>
+      ) : null}
+      <RevealOnScroll>
+        <Text textStyle="sm">{jobTitle}</Text>
+      </RevealOnScroll>
+      <RevealOnScroll delay="0.2s">
+        <Text textStyle="sm">{location}</Text>
+      </RevealOnScroll>
+    </Grid>
+  );
+};
