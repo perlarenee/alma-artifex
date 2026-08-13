@@ -1,5 +1,6 @@
 import { Box, Button, Field, Grid, Input, Textarea } from '@chakra-ui/react';
 import { Form, Formik, type FormikHelpers } from 'formik';
+import { type RefObject, useRef } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { object, string, ValidationError } from 'yup';
 
@@ -16,6 +17,11 @@ interface ContactFormValues {
   message: string;
   name: string;
   reference: string;
+}
+
+interface RecaptchaHandle {
+  getValue: () => string;
+  reset: () => void;
 }
 
 const contactApiUrl = import.meta.env.VITE_CONTACT_API_URL ?? '/api/contact';
@@ -107,21 +113,17 @@ const initialValues: ContactFormValues = {
 
 const submitContactForm = async (
   values: ContactFormValues,
-  helpers: FormikHelpers<ContactFormValues>
+  helpers: FormikHelpers<ContactFormValues>,
+  recaptchaRef: RefObject<RecaptchaHandle | null>
 ) => {
   const sanitizedValues = sanitizeContactFormValues(values);
-  const recaptchaToken = (
-    document.querySelector(
-      '[name="g-recaptcha-response"]'
-    ) as HTMLInputElement | null
-  )?.value;
+  const recaptchaToken = recaptchaRef.current?.getValue() ?? '';
 
   const payload = {
     captchaToken: recaptchaToken ?? '',
     email: sanitizedValues.email,
     message: sanitizedValues.message,
     name: sanitizedValues.name,
-    recipientEmail: sanitizedValues.email,
     reference: sanitizedValues.reference,
     source: 'portfolio-contact-form',
   };
@@ -144,122 +146,134 @@ const submitContactForm = async (
     }
 
     helpers.resetForm();
+    recaptchaRef.current?.reset();
     helpers.setStatus({ success: true });
   } catch {
+    recaptchaRef.current?.reset();
     helpers.setStatus({ success: false });
   } finally {
     window.clearTimeout(timeoutId);
   }
 };
 
-export const FormContact = ({ profile }: FormContactProps) => (
-  <Grid gap={4} textAlign="center">
-    <RevealOnScroll>
-      <SectionHeader p={4}>CONTACT - {profile.name}</SectionHeader>
-    </RevealOnScroll>
+export const FormContact = ({ profile }: FormContactProps) => {
+  const recaptchaRef = useRef<RecaptchaHandle>(null);
+  const handleSubmit = (
+    values: ContactFormValues,
+    helpers: FormikHelpers<ContactFormValues>
+  ) => submitContactForm(values, helpers, recaptchaRef);
 
-    <Formik
-      initialValues={initialValues}
-      onSubmit={submitContactForm}
-      validationSchema={validationSchema}
-    >
-      {({
-        errors,
-        handleBlur,
-        handleChange,
-        isSubmitting,
-        status,
-        touched,
-      }) => (
-        <RevealOnScroll>
-          <Form>
-            <Grid gap={4} maxW="container.md" mx="auto" textAlign="left">
-              <Field.Root invalid={Boolean(touched.name && errors.name)}>
-                <Field.Label>Name</Field.Label>
-                <Input
-                  maxLength={MAX_LENGTHS.name}
-                  name="name"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  placeholder="Your name"
-                />
-                {touched.name && errors.name ? (
-                  <Field.ErrorText>{errors.name}</Field.ErrorText>
+  return (
+    <Grid gap={4} textAlign="center">
+      <RevealOnScroll>
+        <SectionHeader p={4}>CONTACT - {profile.name}</SectionHeader>
+      </RevealOnScroll>
+
+      <Formik
+        initialValues={initialValues}
+        onSubmit={handleSubmit}
+        validationSchema={validationSchema}
+      >
+        {({
+          errors,
+          handleBlur,
+          handleChange,
+          isSubmitting,
+          status,
+          touched,
+        }) => (
+          <RevealOnScroll>
+            <Form>
+              <Grid gap={4} maxW="container.md" mx="auto" textAlign="left">
+                <Field.Root invalid={Boolean(touched.name && errors.name)}>
+                  <Field.Label>Name</Field.Label>
+                  <Input
+                    maxLength={MAX_LENGTHS.name}
+                    name="name"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    placeholder="Your name"
+                  />
+                  {touched.name && errors.name ? (
+                    <Field.ErrorText>{errors.name}</Field.ErrorText>
+                  ) : null}
+                </Field.Root>
+
+                <Field.Root invalid={Boolean(touched.email && errors.email)}>
+                  <Field.Label>Email</Field.Label>
+                  <Input
+                    maxLength={MAX_LENGTHS.email}
+                    name="email"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    placeholder="you@example.com"
+                    type="email"
+                  />
+                  {touched.email && errors.email ? (
+                    <Field.ErrorText>{errors.email}</Field.ErrorText>
+                  ) : null}
+                </Field.Root>
+
+                <Field.Root
+                  invalid={Boolean(touched.message && errors.message)}
+                >
+                  <Field.Label>Message</Field.Label>
+                  <Textarea
+                    maxLength={MAX_LENGTHS.message}
+                    minH="8rem"
+                    name="message"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    placeholder="How can I help you?"
+                  />
+                  {touched.message && errors.message ? (
+                    <Field.ErrorText>{errors.message}</Field.ErrorText>
+                  ) : null}
+                </Field.Root>
+
+                <Field.Root position="absolute" style={{ left: '-9999px' }}>
+                  <Field.Label srOnly>Reference</Field.Label>
+                  <Input
+                    autoComplete="off"
+                    name="reference"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    tabIndex={-1}
+                    value={undefined}
+                  />
+                </Field.Root>
+
+                {recaptchaSiteKey ? (
+                  <Box>
+                    <ReCAPTCHA ref={recaptchaRef} sitekey={recaptchaSiteKey} />
+                  </Box>
                 ) : null}
-              </Field.Root>
 
-              <Field.Root invalid={Boolean(touched.email && errors.email)}>
-                <Field.Label>Email</Field.Label>
-                <Input
-                  maxLength={MAX_LENGTHS.email}
-                  name="email"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  placeholder="you@example.com"
-                  type="email"
-                />
-                {touched.email && errors.email ? (
-                  <Field.ErrorText>{errors.email}</Field.ErrorText>
+                <Button
+                  colorPalette={profile.profileOptions[0].colorPalette}
+                  loading={isSubmitting}
+                  type="submit"
+                  width="full"
+                >
+                  Send Message
+                </Button>
+
+                {status?.success ? (
+                  <Box color="green.600" fontWeight="medium">
+                    Thanks! Your message has been sent.
+                  </Box>
                 ) : null}
-              </Field.Root>
 
-              <Field.Root invalid={Boolean(touched.message && errors.message)}>
-                <Field.Label>Message</Field.Label>
-                <Textarea
-                  maxLength={MAX_LENGTHS.message}
-                  minH="8rem"
-                  name="message"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  placeholder="How can I help you?"
-                />
-                {touched.message && errors.message ? (
-                  <Field.ErrorText>{errors.message}</Field.ErrorText>
+                {status?.success === false ? (
+                  <Box color="red.600" fontWeight="medium">
+                    Something went wrong. Please try again later.
+                  </Box>
                 ) : null}
-              </Field.Root>
-
-              <Field.Root position="absolute" style={{ left: '-9999px' }}>
-                <Field.Label srOnly>Reference</Field.Label>
-                <Input
-                  autoComplete="off"
-                  name="reference"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  tabIndex={-1}
-                  value={undefined}
-                />
-              </Field.Root>
-
-              {recaptchaSiteKey ? (
-                <Box>
-                  <ReCAPTCHA sitekey={recaptchaSiteKey} />
-                </Box>
-              ) : null}
-
-              <Button
-                colorPalette={profile.profileOptions[0].colorPalette}
-                loading={isSubmitting}
-                type="submit"
-                width="full"
-              >
-                Send Message
-              </Button>
-
-              {status?.success ? (
-                <Box color="green.600" fontWeight="medium">
-                  Thanks! Your message has been sent.
-                </Box>
-              ) : null}
-
-              {status?.success === false ? (
-                <Box color="red.600" fontWeight="medium">
-                  Something went wrong. Please try again later.
-                </Box>
-              ) : null}
-            </Grid>
-          </Form>
-        </RevealOnScroll>
-      )}
-    </Formik>
-  </Grid>
-);
+              </Grid>
+            </Form>
+          </RevealOnScroll>
+        )}
+      </Formik>
+    </Grid>
+  );
+};
