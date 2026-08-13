@@ -226,6 +226,7 @@ export const FormContact = ({ profile }: FormContactProps) => {
           setFieldValue,
           status,
           touched,
+          values,
         }) => (
           <RevealOnScroll>
             <Form>
@@ -238,6 +239,7 @@ export const FormContact = ({ profile }: FormContactProps) => {
                     onBlur={handleBlur}
                     onChange={handleChange}
                     placeholder="Your name"
+                    value={values.name}
                   />
                   {touched.name && errors.name ? (
                     <Field.ErrorText>{errors.name}</Field.ErrorText>
@@ -253,6 +255,7 @@ export const FormContact = ({ profile }: FormContactProps) => {
                     onChange={handleChange}
                     placeholder="you@example.com"
                     type="email"
+                    value={values.email}
                   />
                   {touched.email && errors.email ? (
                     <Field.ErrorText>{errors.email}</Field.ErrorText>
@@ -270,6 +273,7 @@ export const FormContact = ({ profile }: FormContactProps) => {
                     onBlur={handleBlur}
                     onChange={handleChange}
                     placeholder="How can I help you?"
+                    value={values.message}
                   />
                   {touched.message && errors.message ? (
                     <Field.ErrorText>{errors.message}</Field.ErrorText>
@@ -284,7 +288,7 @@ export const FormContact = ({ profile }: FormContactProps) => {
                     onBlur={handleBlur}
                     onChange={handleChange}
                     tabIndex={-1}
-                    value={undefined}
+                    value={values.reference}
                   />
                 </Field.Root>
 
