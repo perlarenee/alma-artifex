@@ -17,7 +17,6 @@ const FONT_SIZE = 14;
 const ARC_SPAN = 359; // degrees of the circle the text/border arc covers
 const FALLBACK_SRC = '/assets/photo-placeholder.jpg';
 
-// angleDeg: 0 = top, 90 = right, 180 = bottom, 270 = left (clockwise)
 function polarToCartesian(cx: number, cy: number, r: number, angleDeg: number) {
   const rad = ((angleDeg - 90) * Math.PI) / 180;
   return {
