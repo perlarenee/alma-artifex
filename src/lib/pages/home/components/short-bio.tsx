@@ -81,7 +81,6 @@ export const ShortBio = ({
   shortBio,
   options,
 }: ShortBioProps) => {
-  //const options = profile.profileOptions[0];
   const colorPalette = options?.colorPalette ?? 'teal';
   return (
     <Grid gap={2} textAlign="center">
