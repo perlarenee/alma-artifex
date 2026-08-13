@@ -25,6 +25,7 @@ if (files.length === 0) {
 
 const fix = spawnSync(pnpmCommand, ['exec', 'ultracite', 'fix', ...files], {
   cwd,
+  shell: process.platform === 'win32',
   stdio: 'inherit',
 });
 
