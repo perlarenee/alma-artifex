@@ -11,6 +11,7 @@ describe('validateContactForm', () => {
       email: 'not-an-email',
       message: '',
       name: '',
+      recaptcha: '',
       reference: 'bot',
     });
 
@@ -18,6 +19,7 @@ describe('validateContactForm', () => {
       email: 'Please enter a valid email address',
       message: 'Please enter your message',
       name: 'Name is required',
+      recaptcha: 'Please verify that you are human',
       reference: 'Please complete the form correctly',
     });
   });
@@ -34,6 +36,7 @@ describe('validateContactForm', () => {
       email: 'user@example.com',
       message: 'Hello',
       name: 'Alice',
+      recaptcha: '',
       reference: '',
     });
   });

@@ -16,6 +16,7 @@ interface ContactFormValues {
   email: string;
   message: string;
   name: string;
+  recaptcha: string;
   reference: string;
 }
 
@@ -52,6 +53,7 @@ export const sanitizeContactFormValues = (
   email: sanitizeText(values.email ?? '').toLowerCase(),
   message: sanitizeText(values.message ?? ''),
   name: sanitizeText(values.name ?? ''),
+  recaptcha: (values.recaptcha ?? '').trim(),
   reference: (values.reference ?? '').trim(),
 });
 
@@ -69,6 +71,7 @@ const validationSchema = object({
     .trim()
     .max(MAX_LENGTHS.name, 'Name is too long')
     .required('Name is required'),
+  recaptcha: string().required('Please verify that you are human'),
   reference: string().test(
     'honeypot-empty',
     'Please complete the form correctly',
@@ -88,6 +91,7 @@ export const validateContactForm = (values: ContactFormValues) => {
         email: 'Please enter a valid email address',
         message: 'Please enter your message',
         name: 'Name is required',
+        recaptcha: 'Please verify that you are human',
         reference: 'Please complete the form correctly',
       } as Record<keyof ContactFormValues, string>;
     }
@@ -108,6 +112,7 @@ const initialValues: ContactFormValues = {
   email: '',
   message: '',
   name: '',
+  recaptcha: '',
   reference: '',
 };
 
@@ -117,10 +122,10 @@ const submitContactForm = async (
   recaptchaRef: RefObject<RecaptchaHandle | null>
 ) => {
   const sanitizedValues = sanitizeContactFormValues(values);
-  const recaptchaToken = recaptchaRef.current?.getValue() ?? '';
+  const recaptchaToken = values.recaptcha;
 
   const payload = {
-    captchaToken: recaptchaToken ?? '',
+    captchaToken: recaptchaToken,
     email: sanitizedValues.email,
     message: sanitizedValues.message,
     name: sanitizedValues.name,
@@ -156,6 +161,45 @@ const submitContactForm = async (
   }
 };
 
+interface RecaptchaFieldProps {
+  error?: string;
+  recaptchaRef: RefObject<RecaptchaHandle | null>;
+  setFieldValue: FormikHelpers<ContactFormValues>['setFieldValue'];
+  touched?: boolean;
+}
+
+const RecaptchaField = ({
+  error,
+  recaptchaRef,
+  setFieldValue,
+  touched,
+}: RecaptchaFieldProps) => {
+  const handleChange = (token: string | null) =>
+    setFieldValue('recaptcha', token ?? '', true);
+  const handleExpired = () => setFieldValue('recaptcha', '', true);
+
+  return (
+    <Field.Root
+      alignItems="center"
+      invalid={Boolean(touched && error)}
+      marginBlock={4}
+      textAlign="center"
+    >
+      {recaptchaSiteKey ? (
+        <Box display="flex" justifyContent="center">
+          <ReCAPTCHA
+            onChange={handleChange}
+            onExpired={handleExpired}
+            ref={recaptchaRef}
+            sitekey={recaptchaSiteKey}
+          />
+        </Box>
+      ) : null}
+      {touched && error ? <Field.ErrorText>{error}</Field.ErrorText> : null}
+    </Field.Root>
+  );
+};
+
 export const FormContact = ({ profile }: FormContactProps) => {
   const recaptchaRef = useRef<RecaptchaHandle>(null);
   const handleSubmit = (
@@ -179,6 +223,7 @@ export const FormContact = ({ profile }: FormContactProps) => {
           handleBlur,
           handleChange,
           isSubmitting,
+          setFieldValue,
           status,
           touched,
         }) => (
@@ -243,11 +288,12 @@ export const FormContact = ({ profile }: FormContactProps) => {
                   />
                 </Field.Root>
 
-                {recaptchaSiteKey ? (
-                  <Box>
-                    <ReCAPTCHA ref={recaptchaRef} sitekey={recaptchaSiteKey} />
-                  </Box>
-                ) : null}
+                <RecaptchaField
+                  error={errors.recaptcha}
+                  recaptchaRef={recaptchaRef}
+                  setFieldValue={setFieldValue}
+                  touched={touched.recaptcha}
+                />
 
                 <Button
                   colorPalette={profile.profileOptions[0].colorPalette}
