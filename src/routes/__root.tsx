@@ -6,9 +6,8 @@ import { getProfile } from '@/data/api';
 import { Layout } from '@/lib/layout';
 
 const description = 'Alma Artifex';
-const url = 'https://weblocomotive.com';
-const ogImgUrl =
-  'https://og.sznm.dev/api/generate?heading=alma-artifex&text=Professional+profile+and+resume+application+made+with+React,+Vite,+Typescript,+Chakra,+and+Formik.&template=color';
+const url = 'https://alma-artifex.com';
+const ogImgUrl = 'https://alma-artifex.com/assets/screenshot.jpg';
 
 export const Route = createRootRoute({
   component: () => (
