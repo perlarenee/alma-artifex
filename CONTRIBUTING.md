@@ -1,6 +1,6 @@
 # Contributing Guide
 
-This repository is both a working portfolio app and a reusable starter pattern for building profile-style applications.
+This repository is both a working portfolio app and a reusable starter pattern for building profile applications.
 
 ## Project Philosophy
 
